@@ -23,10 +23,10 @@ then source step.sh
 
 in a test I did I got this finally
 
---------------------------------------------------------------
+============================
 difference in counts and timing using the two sqlite files is 
 pass  1  over  4999  for reference path using  sqlite1
 pass  1  over  4999  for reference path using  sqlite2
 timing 0.030172  for reference path using sqlite1
 timing 0.027120  for reference path using sqlite2
---------------------------------------------------------------
+============================
