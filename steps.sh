@@ -9,30 +9,32 @@ echo " edit testMenu, file and sqlites files, etc.... in the first section"
 sleep 5
  
 ###############################
-testMenu=/cdaq/cosmic/commissioning2017/CRAFT/v1.0/HLT/V1
-runNumber=293492
-GT=90X_dataRun2_HLT_v2
-file=/store/data/Commissioning2017/Cosmics/RAW/v1/000/293/492/00000/0E623A39-9B33-E711-B263-02163E019C0D.root
+testMenu=/cdaq/physics/Run2017/2e34/v4.0.1/HLT/V1
+GT=92X_dataRun2_HLT_v7
+file=$(more files_305188.txt)
 sqlite1=DBLaser_293491
 sqlite2=DBLaser_292925
-pathToMonitor="HLT_L1SingleEG5_v1"
+pathToMonitor=("HLT_Ele35_WPTight_Gsf" "HLT_PFMET110_PFMHT110_IDTight"  "HLT_Photon33"  "HLT_PFJet450" "HLT_PFMETTypeOne100_PFMHT100_IDTight_PFHT60" "HLT_Ele27_WPTight_Gsf" )
 username=degrutto
 ###############################
 
-xrdcp root://cms-xrd-global.cern.ch/$file /tmp/$username.root
 
-
-export SCRAM_ARCH=slc6_amd64_gcc530
-cmsrel CMSSW_9_0_2_patch1
-cp fastTimeAdd.py  CMSSW_9_0_2_patch1/src/
-cd CMSSW_9_0_2_patch1/src
+export CMSREL=CMSSW_9_2_13
+export SCRAM_ARCH=slc6_amd64_gcc630
+cmsrel $CMSREL
+cp fastTimeAdd_new.py  $CMSREL/src/
+cp files_305188.txt $CMSREL/src/
+cd $CMSREL/src
 cmsenv
 
 
-echo "wille run : hltGetConfiguration --offline --globaltag " $GT   "--max-events 999999 --timing  --input  "$file "orcoff:"$testMenu 
+echo "will run : hltGetConfiguration --offline --globaltag " $GT   "--max-events 999999 --timing  --input  "$file "orcoff:"$testMenu 
 
-hltGetConfiguration --offline --globaltag $GT   --max-events 999999 --timing  --input  'file:/tmp/'$username'.root'  orcoff:$testMenu > hlt.py
-more fastTimeAdd.py >> hlt.py
+
+hltGetConfiguration --online --globaltag $GT   --max-events 99999  --input $(more files_305188.txt) orcoff:$testMenu > hlt.py
+more fastTimeAdd_new.py >> hlt.py
+
+
 
 sed 's/TOADAPT/'$sqlite1'/g' hlt.py  > hlt_sqlite1.py
 sed 's/TOADAPT/'$sqlite2'/g' hlt.py  > hlt_sqlite2.py
@@ -43,19 +45,31 @@ sed 's/TOADAPT/'$sqlite2'/g' hlt.py  > hlt_sqlite2.py
 cmsRun hlt_sqlite1.py >&log_sqlite1.log 
 cmsRun hlt_sqlite2.py >&log_sqlite2.log 
 
-more log_sqlite1.log | grep $pathToMonitor >  $pathToMonitor\_sqlite1.log 
-more log_sqlite2.log | grep $pathToMonitor >  $pathToMonitor\_sqlite2.log 
-
-awk 'NR==1 {print "pass ",$5," over ",$6," for reference path using  sqlite1"} ' $pathToMonitor\_sqlite1.log > diff.txt
-awk 'NR==1 {print "pass ",$5," over ",$6," for reference path using  sqlite2"} ' $pathToMonitor\_sqlite2.log >> diff.txt
-
-
-awk 'NR==3 {print "timing " $2," for reference path using sqlite1"} ' $pathToMonitor\_sqlite1.log >> diff.txt
-awk 'NR==3 {print "timing " $2," for reference path using sqlite2"} ' $pathToMonitor\_sqlite2.log >> diff.txt
+for path in ${pathToMonitor[*]}
+do
+   printf "checking for    %s\n" $path
+   more log_sqlite1.log | grep $path >  $path\_sqlite1.log
+   more log_sqlite2.log | grep $path >  $path\_sqlite2.log 
+   diff $path\_sqlite1.log $path\_sqlite2.log | grep TrigReport >> $path\_diff.log
+done
 
 
-echo " difference in counts and timing using the two sqlite files is "
-more diff.txt
+
+
+#more log_sqlite1.log | grep $pathToMonitor >  $pathToMonitor\_sqlite1.log 
+#more log_sqlite2.log | grep $pathToMonitor >  $pathToMonitor\_sqlite2.log 
+
+
+#awk 'NR==1 {print "pass ",$5," over ",$6," for reference path using  sqlite1"} ' $pathToMonitor\_sqlite1.log > diff.txt
+#awk 'NR==1 {print "pass ",$5," over ",$6," for reference path using  sqlite2"} ' $pathToMonitor\_sqlite2.log >> diff.txt
+
+
+#awk 'NR==3 {print "timing " $2," for reference path using sqlite1"} ' $pathToMonitor\_sqlite1.log >> diff.txt
+#awk 'NR==3 {print "timing " $2," for reference path using sqlite2"} ' $pathToMonitor\_sqlite2.log >> diff.txt
+
+
+#echo " difference in counts and timing using the two sqlite files is "
+#more diff.txt
 
 #wget https://raw.githubusercontent.com/cms-steam/TimingScripts/master/MenuValidation/TimingAndRates.py 
 #wget https://raw.githubusercontent.com/cms-steam/TimingScripts/master/MenuValidation/TimingAndRates.cc .
