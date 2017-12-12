@@ -20,11 +20,11 @@ pathToMonitor=("HLT_Ele35_WPTight_Gsf" "HLT_PFMET110_PFMHT110_IDTight"  "HLT_Pho
 
 export CMSREL=CMSSW_9_2_13
 export SCRAM_ARCH=slc6_amd64_gcc630
-cmsrel $CMSREL
+scram -a $SCRAM_ARCH project $CMSREL
 cp fastTimeAdd_new.py  $CMSREL/src/
 cp files_305188.txt $CMSREL/src/
 cd $CMSREL/src
-cmsenv
+eval `scram runtime -sh`
 
 
 echo "will run : hltGetConfiguration --offline --globaltag " $GT   "--max-events 999999 --timing  --input  "$file "orcoff:"$testMenu 
