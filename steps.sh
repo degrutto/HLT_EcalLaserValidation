@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -ex
 
 
 echo "Running automated fast track validation script. Will compare rates and timing of menus using"
