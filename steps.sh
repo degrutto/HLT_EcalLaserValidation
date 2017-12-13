@@ -30,7 +30,7 @@ eval `scram runtime -sh`
 echo "will run : hltGetConfiguration --offline --globaltag " $GT   "--max-events 999999 --timing  --input  "$file "orcoff:"$testMenu 
 
 
-hltGetConfiguration --online --globaltag $GT   --max-events 99999  --input $(more files_305188.txt) orcoff:$testMenu > hlt.py
+hltGetConfiguration --online --globaltag $GT   --max-events 99999  --input $(cat files_305188.txt) orcoff:$testMenu > hlt.py
 cat fastTimeAdd_new.py >> hlt.py
 
 
