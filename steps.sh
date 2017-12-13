@@ -49,7 +49,7 @@ do
    printf "checking for    %s\n" $path
    cat log_sqlite1.log | grep $path >  $path\_sqlite1.log
    cat log_sqlite2.log | grep $path >  $path\_sqlite2.log 
-   diff $path\_sqlite1.log $path\_sqlite2.log | grep TrigReport >> $path\_diff.log
+   diff $path\_sqlite1.log $path\_sqlite2.log | grep TrigReport >> $path\_diff.log || true
 done
 
 
