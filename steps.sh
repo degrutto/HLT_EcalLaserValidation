@@ -31,7 +31,7 @@ echo "will run : hltGetConfiguration --offline --globaltag " $GT   "--max-events
 
 
 hltGetConfiguration --online --globaltag $GT   --max-events 99999  --input $(more files_305188.txt) orcoff:$testMenu > hlt.py
-more fastTimeAdd_new.py >> hlt.py
+cat fastTimeAdd_new.py >> hlt.py
 
 
 
@@ -47,16 +47,16 @@ cmsRun hlt_sqlite2.py >&log_sqlite2.log
 for path in ${pathToMonitor[*]}
 do
    printf "checking for    %s\n" $path
-   more log_sqlite1.log | grep $path >  $path\_sqlite1.log
-   more log_sqlite2.log | grep $path >  $path\_sqlite2.log 
+   cat log_sqlite1.log | grep $path >  $path\_sqlite1.log
+   cat log_sqlite2.log | grep $path >  $path\_sqlite2.log 
    diff $path\_sqlite1.log $path\_sqlite2.log | grep TrigReport >> $path\_diff.log
 done
 
 
 
 
-#more log_sqlite1.log | grep $pathToMonitor >  $pathToMonitor\_sqlite1.log 
-#more log_sqlite2.log | grep $pathToMonitor >  $pathToMonitor\_sqlite2.log 
+#cat log_sqlite1.log | grep $pathToMonitor >  $pathToMonitor\_sqlite1.log 
+#cat log_sqlite2.log | grep $pathToMonitor >  $pathToMonitor\_sqlite2.log 
 
 
 #awk 'NR==1 {print "pass ",$5," over ",$6," for reference path using  sqlite1"} ' $pathToMonitor\_sqlite1.log > diff.txt
@@ -68,7 +68,7 @@ done
 
 
 #echo " difference in counts and timing using the two sqlite files is "
-#more diff.txt
+#cat diff.txt
 
 #wget https://raw.githubusercontent.com/cms-steam/TimingScripts/master/MenuValidation/TimingAndRates.py 
 #wget https://raw.githubusercontent.com/cms-steam/TimingScripts/master/MenuValidation/TimingAndRates.cc .
