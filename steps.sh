@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -ex
 
 
 echo "Running automated fast track validation script. Will compare rates and timing of menus using"
@@ -11,7 +11,7 @@ sleep 5
 ###############################
 testMenu=/cdaq/physics/Run2017/2e34/v4.0.1/HLT/V1
 GT=92X_dataRun2_HLT_v7
-file=$(more files_305188.txt)
+file=$(cat files_305188.txt)
 sqlite1=DBLaser_293491
 sqlite2=DBLaser_292925
 pathToMonitor=("HLT_Ele35_WPTight_Gsf" "HLT_PFMET110_PFMHT110_IDTight"  "HLT_Photon33"  "HLT_PFJet450" "HLT_PFMETTypeOne100_PFMHT100_IDTight_PFHT60" "HLT_Ele27_WPTight_Gsf" )
@@ -20,18 +20,18 @@ pathToMonitor=("HLT_Ele35_WPTight_Gsf" "HLT_PFMET110_PFMHT110_IDTight"  "HLT_Pho
 
 export CMSREL=CMSSW_9_2_13
 export SCRAM_ARCH=slc6_amd64_gcc630
-cmsrel $CMSREL
+scram -a $SCRAM_ARCH project $CMSREL
 cp fastTimeAdd_new.py  $CMSREL/src/
 cp files_305188.txt $CMSREL/src/
 cd $CMSREL/src
-cmsenv
+eval `scram runtime -sh`
 
 
 echo "will run : hltGetConfiguration --offline --globaltag " $GT   "--max-events 999999 --timing  --input  "$file "orcoff:"$testMenu 
 
 
-hltGetConfiguration --online --globaltag $GT   --max-events 99999  --input $(more files_305188.txt) orcoff:$testMenu > hlt.py
-more fastTimeAdd_new.py >> hlt.py
+hltGetConfiguration --online --globaltag $GT   --max-events 99999  --input $(cat files_305188.txt) orcoff:$testMenu > hlt.py
+cat fastTimeAdd_new.py >> hlt.py
 
 
 
@@ -47,16 +47,16 @@ cmsRun hlt_sqlite2.py >&log_sqlite2.log
 for path in ${pathToMonitor[*]}
 do
    printf "checking for    %s\n" $path
-   more log_sqlite1.log | grep $path >  $path\_sqlite1.log
-   more log_sqlite2.log | grep $path >  $path\_sqlite2.log 
-   diff $path\_sqlite1.log $path\_sqlite2.log | grep TrigReport >> $path\_diff.log
+   cat log_sqlite1.log | grep $path >  $path\_sqlite1.log
+   cat log_sqlite2.log | grep $path >  $path\_sqlite2.log 
+   diff $path\_sqlite1.log $path\_sqlite2.log | grep TrigReport >> $path\_diff.log || true
 done
 
 
 
 
-#more log_sqlite1.log | grep $pathToMonitor >  $pathToMonitor\_sqlite1.log 
-#more log_sqlite2.log | grep $pathToMonitor >  $pathToMonitor\_sqlite2.log 
+#cat log_sqlite1.log | grep $pathToMonitor >  $pathToMonitor\_sqlite1.log 
+#cat log_sqlite2.log | grep $pathToMonitor >  $pathToMonitor\_sqlite2.log 
 
 
 #awk 'NR==1 {print "pass ",$5," over ",$6," for reference path using  sqlite1"} ' $pathToMonitor\_sqlite1.log > diff.txt
@@ -68,7 +68,7 @@ done
 
 
 #echo " difference in counts and timing using the two sqlite files is "
-#more diff.txt
+#cat diff.txt
 
 #wget https://raw.githubusercontent.com/cms-steam/TimingScripts/master/MenuValidation/TimingAndRates.py 
 #wget https://raw.githubusercontent.com/cms-steam/TimingScripts/master/MenuValidation/TimingAndRates.cc .
