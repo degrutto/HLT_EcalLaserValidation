@@ -2,6 +2,7 @@
 short script ecal laser calibrations fast validation at HLT
 
 git clone https://github.com/EcalLaserValidation/HLT_EcalLaserValidation.git
+
 voms-proxy-init -voms=cms
 
 
