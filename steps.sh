@@ -10,10 +10,10 @@ sleep 5
  
 ###############################
 testMenu=/cdaq/physics/Run2017/2e34/v4.0.1/HLT/V1
-GT=92X_dataRun2_HLT_v7
+#GT=92X_dataRun2_HLT_v7
 file=$(cat files_305188.txt)
-sqlite1=DBLaser_306710_moved_to_1
-sqlite2=DBLaser_306802_moved_to_1
+sqlite1=DBLaser_306710
+sqlite2=DBLaser_306802
 pathToMonitor=("HLT_Ele35_WPTight_Gsf" "HLT_PFMET110_PFMHT110_IDTight"  "HLT_Photon33"  "HLT_PFJet450" "HLT_PFMETTypeOne100_PFMHT100_IDTight_PFHT60" "HLT_Ele27_WPTight_Gsf" )
 ###############################
 
@@ -27,7 +27,8 @@ cd $CMSREL/src
 eval `scram runtime -sh`
 
 
-echo "will run : hltGetConfiguration --offline --globaltag " $GT   "--max-events 999999 --timing  --input  "$file "orcoff:"$testMenu 
+#echo "will run : hltGetConfiguration --offline --globaltag " $GT   "--max-events 999999 --timing  --input  "$file "orcoff:"$testMenu 
+echo "will run : hltGetConfiguration --offline --globaltag auto:run2_hlt_GRun --max-events 999999 --timing  --input  "$file "orcoff:"$testMenu 
 
 
 #hltGetConfiguration --online --globaltag $GT   --max-events 99999  --input $(cat files_305188.txt) orcoff:$testMenu > hlt.py
