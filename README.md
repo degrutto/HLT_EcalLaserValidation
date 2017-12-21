@@ -1,9 +1,29 @@
 # HLT_EcalLaserValidation
 short script ecal laser calibrations fast validation at HLT
 
+####  To make a PR and trigger the jenkins test  #######
+
+git init
+
 git clone https://github.com/EcalLaserValidation/HLT_EcalLaserValidation.git
 
-voms-proxy-init -voms=cms
+cd  HLT_EcalLaserValidation
+
+git checkout -b "newBranch_dateXXX"
+
+modify what you have to modify ...
+
+git commit -m "changes" *
+
+git push origin newBranch_dateXXX
+
+go on the github web site https://github.com/EcalLaserValidation/HLT_EcalLaserValidation/ and clic on "New pull request", then select your branch and create the PR
+
+add comment "please test" to trigger the Jenkins test
+
+
+
+##### To run locally #######
 
 
 
