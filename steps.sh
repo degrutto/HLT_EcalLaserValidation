@@ -18,7 +18,7 @@ pathToMonitor=("HLT_Ele35_WPTight_Gsf" "HLT_PFMET120_PFMHT120_IDTight"  "HLT_Pho
 ###############################
 
 
-export CMSREL=CMSSW_9_2_4
+export CMSREL=CMSSW_9_2_13
 export SCRAM_ARCH=slc6_amd64_gcc630
 scram -a $SCRAM_ARCH project $CMSREL
 cp fastTimeAdd_new.py  $CMSREL/src/
