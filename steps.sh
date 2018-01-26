@@ -11,7 +11,7 @@ sleep 5
 ###############################
 testMenu=/cdaq/physics/Run2017/2e34/v4.0.1/HLT/V1
 GT=92X_dataRun2_HLT_v7
-file=$(cat files_305183.txt)
+file=$(cat files_305336.txt)
 sqlite1=DBLaser_305254
 sqlite2=DBLaser_305112
 pathToMonitor=("HLT_Ele35_WPTight_Gsf" "HLT_PFMET120_PFMHT120_IDTight"  "HLT_Photon33"  "HLT_PFJet450" "HLT_PFMETTypeOne120_PFMHT120_IDTight_PFHT60" "HLT_Ele27_WPTight_Gsf" )
@@ -23,7 +23,7 @@ export CMSREL=CMSSW_9_2_13
 export SCRAM_ARCH=slc6_amd64_gcc630
 scram -a $SCRAM_ARCH project $CMSREL
 cp fastTimeAdd_new.py  $CMSREL/src/
-cp files_305183.txt $CMSREL/src/
+cp files_305336.txt $CMSREL/src/
 cd $CMSREL/src
 eval `scram runtime -sh`
 
