@@ -1,20 +1,16 @@
 #!/bin/bash -ex
 
-
-echo "Running automated fast track validation script. Will compare rates and timing of menus using"
-echo "reference and test sqlite files"
-echo " "
-
-echo " edit testMenu, file and sqlites files, etc.... in the first section"
 sleep 5
  
 ###############################
 testMenu=/cdaq/physics/Run2017/2e34/v4.0.1/HLT/V1
 GT=92X_dataRun2_HLT_v7
 file=$(cat files_305188.txt)
-sqlite1=$1
-sqlite2=$2
+sqlite1=DBLaser_$1
+sqlite2=DBLaser_$2
+@updateNumber=$3
 pathToMonitor=("HLT_Ele3" "HLT_PFMET120_PFMHT120_IDTight"  "HLT_Photon33" "HLT_PFMETTypeOne100_PFMHT100_IDTight_PFHT60" "HLT_Ele27_WPTight_Gsf" )
+maxEvents=100
 ###############################
 
 
@@ -28,31 +24,37 @@ eval `scram runtime -sh`
 
 
 echo "will run : hltGetConfiguration --offline --globaltag " $GT   "--max-events 999999 --timing  --input  "$file "orcoff:"$testMenu 
-#echo "will run : hltGetConfiguration --offline --globaltag auto:run2_hlt_GRun --max-events 999999 --timing  --input  "$file "orcoff:"$testMenu 
 
 
-hltGetConfiguration --online --globaltag $GT   --max-events 99999  --input $(cat files_305188.txt) orcoff:$testMenu > hlt.py
-#hltGetConfiguration --online --globaltag auto:run2_hlt_GRun   --max-events 99999  --input $(cat files_305188.txt) orcoff:$testMenu > hlt.py
+wget http://cern.ch/ecaltrg/DBLaser/${sqlite1}.db
+#wget http://cern.ch/ecaltrg/DBLaser/${sqlite2}.db
+
+hltGetConfiguration --online --globaltag $GT   --max-events $maxEvents  --input $(cat files_305188.txt) orcoff:$testMenu > hlt.py
 
 cat fastTimeAdd_new.py >> hlt.py
 
 
-
 sed 's/TOADAPT/'$sqlite1'/g' hlt.py  > hlt_sqlite1.py
-sed 's/TOADAPT/'$sqlite2'/g' hlt.py  > hlt_sqlite2.py
+#sed 's/TOADAPT/'$sqlite2'/g' hlt.py  > hlt_sqlite2.py
 
 
 
 
 cmsRun hlt_sqlite1.py >&log_sqlite1.log 
-cmsRun hlt_sqlite2.py >&log_sqlite2.log 
+#cmsRun hlt_sqlite2.py >&log_sqlite2.log 
+
+mkdir ${WORKSPACE}/upload/$1
+cp log_sqlite1.log  ${WORKSPACE}/upload/$1 
+
+#try to retrieve the output from the previous update
+
 
 for path in ${pathToMonitor[*]}
 do
    printf "checking for    %s\n" $path
    cat log_sqlite1.log | grep $path >  $path\_sqlite1.log
-   cat log_sqlite2.log | grep $path >  $path\_sqlite2.log 
-   diff $path\_sqlite1.log $path\_sqlite2.log | grep TrigReport >> $path\_diff.log || true
+#   cat log_sqlite2.log | grep $path >  $path\_sqlite2.log 
+#   diff $path\_sqlite1.log $path\_sqlite2.log | grep TrigReport >> $path\_diff.log || true
 done
 
 
