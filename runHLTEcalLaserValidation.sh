@@ -41,8 +41,9 @@ cmsRun hlt_sqlite.py >&log_sqlite.log
 
 if [-f ${WORKSPACE}/upload/$2 ]
 then
+  echo "dir is already existing"
 else
-mkdir ${WORKSPACE}/upload/$2 
+    mkdir ${WORKSPACE}/upload/$2 
 fi
 
 cp log_sqlite.log  ${WORKSPACE}/upload/${2}/log_ref_${2}.log 
