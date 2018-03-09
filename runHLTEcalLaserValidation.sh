@@ -31,7 +31,7 @@ wget http://cern.ch/ecaltrg/DBLaser/${sqlite}.db
 
 hltGetConfiguration --online --globaltag $GT   --max-events $maxEvents  --input $(cat files_305188.txt) orcoff:$testMenu > hlt.py
 
-cat fastTimeAdd_new.py >> hlt.py
+cat fastTimeAdd.py >> hlt.py
 
 
 sed 's/TOADAPT/'$sqlite'/g' hlt.py  > hlt_sqlite.py
@@ -39,7 +39,7 @@ sed 's/TOADAPT/'$sqlite'/g' hlt.py  > hlt_sqlite.py
 
 cmsRun hlt_sqlite.py >&log_sqlite.log 
 
-
+#it may be gzipped infact ...
 wget https://cmssdt.cern.ch/SDT/public/EcalLaserValidation/HLT_EcalLaserValidation/${1}/log_ref_${1}.log
 
 for path in ${pathToMonitor[*]}
@@ -59,7 +59,7 @@ else
     touch ${WORKSPACE}/upload/$2/.jenkins-upload
 fi
 
-
+#we need to make a tar gz of this one
 cp log_sqlite.log  ${WORKSPACE}/upload/${2}/log_ref_${2}.log 
 
 
