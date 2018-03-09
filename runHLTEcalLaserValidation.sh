@@ -17,7 +17,7 @@ maxEvents=100
 export CMSREL=CMSSW_9_2_13
 export SCRAM_ARCH=slc6_amd64_gcc630
 scram -a $SCRAM_ARCH project $CMSREL
-cp fastTimeAdd_new.py  $CMSREL/src/
+cp fastTimeAdd.py  $CMSREL/src/
 cp files_305188.txt $CMSREL/src/
 cd $CMSREL/src
 eval `scram runtime -sh`
