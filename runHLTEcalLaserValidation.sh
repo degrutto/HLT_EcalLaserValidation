@@ -10,7 +10,7 @@ reference=$1
 sqlite=DBLaser_$2
 updateNumber=$3
 pathToMonitor=("HLT_Ele3" "HLT_PFMET120_PFMHT120_IDTight"  "HLT_Photon33" "HLT_PFMETTypeOne100_PFMHT100_IDTight_PFHT60" "HLT_Ele27_WPTight_Gsf" )
-maxEvents=100
+maxEvents=10000
 ###############################
 
 
