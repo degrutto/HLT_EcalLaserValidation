@@ -39,15 +39,6 @@ sed 's/TOADAPT/'$sqlite'/g' hlt.py  > hlt_sqlite.py
 
 cmsRun hlt_sqlite.py >&log_sqlite.log 
 
-if [-f ${WORKSPACE}/upload/$2 ]
-then
-  echo "dir is already existing"
-else
-    mkdir ${WORKSPACE}/upload/$2 
-fi
-
-cp log_sqlite.log  ${WORKSPACE}/upload/${2}/log_ref_${2}.log 
-
 
 wget https://cmssdt.cern.ch/SDT/public/EcalLaserValidation/HLT_EcalLaserValidation/${1}/log_ref_${1}.log
 
@@ -59,6 +50,17 @@ do
    diff $path\_sqlite.log $path\_ref_${1}.log | grep TrigReport >> $path\_diff.log || true
 done
 
+if [-f ${WORKSPACE}/upload/$2 ]
+then
+  echo "dir is already existing"
+  touch ${WORKSPACE}/upload/$2/.jenkins-upload
+else
+    mkdir ${WORKSPACE}/upload/$2
+    touch ${WORKSPACE}/upload/$2/.jenkins-upload
+fi
+
+
+cp log_sqlite.log  ${WORKSPACE}/upload/${2}/log_ref_${2}.log 
 
 
 
