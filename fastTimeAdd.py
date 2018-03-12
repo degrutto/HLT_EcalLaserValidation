@@ -1,6 +1,6 @@
 process.options = cms.untracked.PSet(
     wantSummary = cms.untracked.bool( True ),
-    numberOfThreads = cms.untracked.uint32( 4 ),
+    numberOfThreads = cms.untracked.uint32( 8 ),
     numberOfStreams = cms.untracked.uint32( 0 ),
     sizeOfStackForThreadsInKB = cms.untracked.uint32( 10*1024 )
 )
@@ -28,9 +28,6 @@ process.dqmFileSaver = cms.EDAnalyzer( "DQMFileSaver",
 
 #process.TimingOutput = cms.EndPath( process.fastTimerServiceClient + process.dqmFileSaver )
 
-
-#sending 8 threads
-process.options.numberOfThreads = cms.untracked.uint32( 8 ), 
 
 process.GlobalTag.toGet = cms.VPSet(
   cms.PSet(record = cms.string("EcalLaserAPDPNRatiosRcd"),
