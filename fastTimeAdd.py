@@ -29,6 +29,9 @@ process.dqmFileSaver = cms.EDAnalyzer( "DQMFileSaver",
 #process.TimingOutput = cms.EndPath( process.fastTimerServiceClient + process.dqmFileSaver )
 
 
+#sending 8 threads
+process.options.numberOfThreads = cms.untracked.uint32( 8 ), 
+
 process.GlobalTag.toGet = cms.VPSet(
   cms.PSet(record = cms.string("EcalLaserAPDPNRatiosRcd"),
            tag = cms.string("EcalLaserAPDPNRatios_weekly_v1_hlt"),
