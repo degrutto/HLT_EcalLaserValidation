@@ -8,9 +8,8 @@ GT=92X_dataRun2_HLT_v7
 file=$(cat files_305188.txt)
 reference=$1
 sqlite=DBLaser_$2
-updateNumber=$3
 pathToMonitor=("HLT_Ele3" "HLT_PFMET120_PFMHT120_IDTight"  "HLT_Photon33" "HLT_PFMETTypeOne100_PFMHT100_IDTight_PFHT60" "HLT_Ele27_WPTight_Gsf" )
-maxEvents=50000
+maxEvents=100000
 ###############################
 
 
