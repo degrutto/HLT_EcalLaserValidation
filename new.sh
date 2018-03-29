@@ -8,7 +8,8 @@ echo ToRun/$file
     week=`grep "week" ToRun/$file | awk '{print $2}'`
     sqlite1=`grep "run1" ToRun/$file | awk '{print $2}'`
     sqlite2=`grep "run2" ToRun/$file | awk '{print $2}'`
-mv ToRun/$file RunFiles/.
+cp ToRun/$file RunFiles/.
+rm ToRun/$file
 echo "./runHLTEcalLaserValidation.sh $sqlite1 $sqlite2 $week"
 ./runHLTEcalLaserValidation.sh $sqlite1 $sqlite2 $week 
 git commit -a -m "clean ToRun files"
