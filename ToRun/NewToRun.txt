@@ -1,5 +1,5 @@
 # try New IOVs to be tested
-week 40
-year 2017
-run1 304204
-run2 304448
+week 14
+year 2018
+run1 306802
+run2 313414
