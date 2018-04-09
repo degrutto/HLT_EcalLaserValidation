@@ -1,6 +1,6 @@
 process.options = cms.untracked.PSet(
-    wantSummary = cms.untracked.bool( True ),
-    numberOfThreads = cms.untracked.uint32( 4 ),
+    wantSummary = cms.untracked.bool( False ),
+    numberOfThreads = cms.untracked.uint32( 16 ),
     numberOfStreams = cms.untracked.uint32( 0 ),
     sizeOfStackForThreadsInKB = cms.untracked.uint32( 10*1024 )
 )
@@ -8,9 +8,9 @@ process.options = cms.untracked.PSet(
 
 
 # FastTimerServiceClient                                                                                                                                                                                          
-process.fastTimerServiceClient = cms.EDAnalyzer( "FastTimerServiceClient",
-    dqmPath = cms.untracked.string( "HLT/TimerService" )
-)
+#process.fastTimerServiceClient = cms.EDAnalyzer( "FastTimerServiceClient",
+#    dqmPath = cms.untracked.string( "HLT/TimerService" )
+#)
 
 # DQM file saver                                                                                                                                                                                                  
 process.dqmFileSaver = cms.EDAnalyzer( "DQMFileSaver",
@@ -26,7 +26,7 @@ process.dqmFileSaver = cms.EDAnalyzer( "DQMFileSaver",
     forceRunNumber    = cms.untracked.int32(-1),
 )
 
-process.TimingOutput = cms.EndPath( process.fastTimerServiceClient + process.dqmFileSaver )
+#process.TimingOutput = cms.EndPath( process.fastTimerServiceClient + process.dqmFileSaver )
 
 
 process.GlobalTag.toGet = cms.VPSet(

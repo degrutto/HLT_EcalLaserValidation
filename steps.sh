@@ -11,8 +11,8 @@ echo ToRun/$file
     sqlite1=`grep "run1" ToRun/$file | awk '{print $2}'`
     sqlite2=`grep "run2" ToRun/$file | awk '{print $2}'`
 mv ToRun/$file RunFiles/.
-echo "./runHLTEcalLaserValidation.sh $sqlite1 $sqlite2 $week"
-./runHLTEcalLaserValidation.sh $sqlite1 $sqlite2 $week
+echo "./runHLTEcalLaserValidation.sh $sqlite1 $sqlite2"
+./runHLTEcalLaserValidation.sh $sqlite1 $sqlite2
 else
 echo "No new files"
 fi
