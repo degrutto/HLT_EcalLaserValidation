@@ -41,12 +41,13 @@ cmsRun hlt_sqlite.py >&log_sqlite.log
 #it may be gzipped infact ...
 wget https://cmssdt.cern.ch/SDT/public/EcalLaserValidation/HLT_EcalLaserValidation/${1}/log_ref_${1}.log
 
+touch outputDiff.log
 for path in ${pathToMonitor[*]}
 do
    printf "checking for    %s\n" $path
    cat log_sqlite.log | grep $path >  $path\_sqlite.log
    cat log_ref_${1}.log | grep $path >  ${path}\_ref_${1}.log 
-   diff $path\_sqlite.log $path\_ref_${1}.log | grep TrigReport >> $path\_diff.log || true
+   diff $path\_sqlite.log $path\_ref_${1}.log | grep TrigReport >> outputDiff.log || true 
 done
 
 if [-f ${WORKSPACE}/upload/$2 ]
@@ -59,12 +60,9 @@ else
 fi
 
 #we need to make a tar gz of this one
-cp log_sqlite.log  ${WORKSPACE}/upload/${2}/log_ref_${2}.log 
+#cp log_sqlite.log  ${WORKSPACE}/upload/${2}/log_ref_${2}.log 
+cp outputDiff.log ${WORKSPACE}/upload/${2}/outputDiff.log
 
-
-
-#cat log_sqlite1.log | grep $pathToMonitor >  $pathToMonitor\_sqlite1.log 
-#cat log_sqlite2.log | grep $pathToMonitor >  $pathToMonitor\_sqlite2.log 
 
 
 #awk 'NR==1 {print "pass ",$5," over ",$6," for reference path using  sqlite1"} ' $pathToMonitor\_sqlite1.log > diff.txt
@@ -78,9 +76,3 @@ cp log_sqlite.log  ${WORKSPACE}/upload/${2}/log_ref_${2}.log
 #echo " difference in counts and timing using the two sqlite files is "
 #cat diff.txt
 
-#wget https://raw.githubusercontent.com/cms-steam/TimingScripts/master/MenuValidation/TimingAndRates.py 
-#wget https://raw.githubusercontent.com/cms-steam/TimingScripts/master/MenuValidation/TimingAndRates.cc .
-#python TimingScripts/Scripts/plotPath_Timing.py --inputfiles DQM_XXXX.root --process TIMING --runs XXX --paths HLT_XXXXX
-
-
-#python TimingAndRates.py --run 293492 --data --lumis 999999 --inputfile DQM_V0001_R000293645__HLT__FastTimerService__All.root
