@@ -33,8 +33,8 @@ hltGetConfiguration --online --globaltag $GT   --max-events $maxEvents  --input 
 cat fastTimeAdd.py >> hlt.py
 
 
-sed 's/TOADAPT/'$sqlite'/g' hlt.py  > hlt_sqlite.py
-
+sed 's/TOADAPT/'$sqlite'/g' hlt.py  > hlt_tmp.py
+sed 's/RUNNUMBERHERE/'${2}'/g' hlt_tmp.py >  hlt_sqlite.py
 
 cmsRun hlt_sqlite.py >&log_sqlite.log 
 

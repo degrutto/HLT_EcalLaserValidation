@@ -31,7 +31,7 @@ process.dqmFileSaver = cms.EDAnalyzer( "DQMFileSaver",
 
 process.GlobalTag.toGet = cms.VPSet(
   cms.PSet(record = cms.string("EcalLaserAPDPNRatiosRcd"),
-           tag = cms.string("EcalLaserAPDPNRatios_weekly_v1_hlt"),
+           tag = cms.string("EcalLaserAPDPNRatios_RUNNUMBERHERE_beginning_at_1"),
            connect = cms.string("sqlite_file:TOADAPT.db")
           )
 )
