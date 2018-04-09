@@ -7,7 +7,7 @@ testMenu=/cdaq/physics/Run2017/2e34/v4.0.1/HLT/V1
 GT=92X_dataRun2_HLT_v7
 file=$(cat files_305188.txt)
 reference=$1
-sqlite=DBLaser_$2
+sqlite=DBLaser_${2}_moved_to_1
 pathToMonitor=("HLT_Ele3" "HLT_PFMET120_PFMHT120_IDTight"  "HLT_Photon33" "HLT_PFMETTypeOne100_PFMHT100_IDTight_PFHT60" "HLT_Ele27_WPTight_Gsf" )
 maxEvents=100000
 ###############################
