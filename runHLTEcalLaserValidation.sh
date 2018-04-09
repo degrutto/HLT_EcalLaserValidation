@@ -13,13 +13,13 @@ maxEvents=100000
 ###############################
 
 
-export CMSREL=CMSSW_9_2_13
-export SCRAM_ARCH=slc6_amd64_gcc630
-scram -a $SCRAM_ARCH project $CMSREL
-cp fastTimeAdd.py  $CMSREL/src/
-cp files_305188.txt $CMSREL/src/
-cd $CMSREL/src
-eval `scram runtime -sh`
+#export CMSREL=CMSSW_9_2_13
+#export SCRAM_ARCH=slc6_amd64_gcc630
+#scram -a $SCRAM_ARCH project $CMSREL
+#cp fastTimeAdd.py  $CMSREL/src/
+#cp files_305188.txt $CMSREL/src/
+#cd $CMSREL/src
+#eval `scram runtime -sh`
 
 
 echo "will run : hltGetConfiguration --offline --globaltag " $GT   "--max-events 999999 --timing  --input  "$file "orcoff:"$testMenu 
@@ -36,7 +36,7 @@ cat fastTimeAdd.py >> hlt.py
 sed 's/TOADAPT/'$sqlite'/g' hlt.py  > hlt_sqlite.py
 
 
-cmsRun hlt_sqlite.py >&log_sqlite.log 
+#cmsRun hlt_sqlite.py >&log_sqlite.log 
 
 #it may be gzipped infact ...
 wget https://cmssdt.cern.ch/SDT/public/EcalLaserValidation/HLT_EcalLaserValidation/${1}/log_ref_${1}.log
