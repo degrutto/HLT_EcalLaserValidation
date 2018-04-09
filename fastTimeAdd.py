@@ -1,6 +1,6 @@
 process.options = cms.untracked.PSet(
     wantSummary = cms.untracked.bool( False ),
-    numberOfThreads = cms.untracked.uint32( 16 ),
+    numberOfThreads = cms.untracked.uint32( 8 ),
     numberOfStreams = cms.untracked.uint32( 0 ),
     sizeOfStackForThreadsInKB = cms.untracked.uint32( 10*1024 )
 )
