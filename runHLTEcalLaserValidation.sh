@@ -60,7 +60,7 @@ else
 fi
 
 #we need to make a tar gz of this one
-#cp log_sqlite.log  ${WORKSPACE}/upload/${2}/log_ref_${2}.log 
+cp log_sqlite.log  ${WORKSPACE}/upload/${2}/log_ref_${2}.log 
 cp outputDiff.log ${WORKSPACE}/upload/${2}/outputDiff.log
 
 
