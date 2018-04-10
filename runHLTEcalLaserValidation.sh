@@ -45,9 +45,9 @@ touch outputDiff.log
 for path in ${pathToMonitor[*]}
 do
    printf "checking for    %s\n" $path
-   cat log_sqlite.log | grep $path >  $path\_sqlite.log
-   cat log_ref_${1}.log | grep $path >  ${path}\_ref_${1}.log 
-   diff $path\_sqlite.log $path\_ref_${1}.log | grep TrigReport >> outputDiff.log || true 
+   cat log_sqlite.log | grep $path | grep TrigReport >  $path\_sqlite.log
+   cat log_ref_${1}.log | grep $path | grep TrigReport >  ${path}\_ref_${1}.log 
+   diff $path\_sqlite.log $path\_ref_${1}.log  >> outputDiff.log || true 
 done
 
 if [-f ${WORKSPACE}/upload/$2 ]
