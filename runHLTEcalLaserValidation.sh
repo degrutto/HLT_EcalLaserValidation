@@ -26,8 +26,6 @@ eval `scram runtime -sh`
 echo "will run : hltGetConfiguration --offline --globaltag " $GT   "--max-events 999999 --timing  --input  "$file "orcoff:"$testMenu 
 
 
-wget http://cern.ch/ecaltrg/DBLaser/${sqlite}.db
-wget http://cern.ch/ecaltrg/DBPedestals/${sqlitePED}.db
 
 hltGetConfiguration --online --globaltag $GT   --max-events $maxEvents  --input $(cat files_305188.txt) orcoff:$testMenu > hlt.py
 
@@ -51,6 +49,7 @@ process.GlobalTag.toGet = cms.VPSet(
           )
 )
 " >> hlt.py
+wget http://cern.ch/ecaltrg/DBLaser/${sqlite}.db
 fi
 if [${3} == "pedestal"]
 then
@@ -62,7 +61,8 @@ process.GlobalTag.toGet = cms.VPSet(
           )
 )
 ">> hlt.py
-
+wget http://cern.ch/ecaltrg/DBPedestals/${sqlitePED}.db
+fi
 
 cmsRun hlt.py >&log_sqlite.log 
 
