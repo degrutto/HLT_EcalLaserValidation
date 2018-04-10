@@ -39,7 +39,7 @@ process.options = cms.untracked.PSet(
 )
 " >> hlt.py
 
-if [${3} == "laser"]
+if (${3} == "laser")
 then
 echo "\n
 process.GlobalTag.toGet = cms.VPSet(
@@ -51,7 +51,7 @@ process.GlobalTag.toGet = cms.VPSet(
 " >> hlt.py
 wget http://cern.ch/ecaltrg/DBLaser/${sqlite}.db
 fi
-if [${3} == "pedestal"]
+if (${3} == "pedestal")
 then
 echo "\n
 process.GlobalTag.toGet = cms.VPSet(
