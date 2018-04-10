@@ -6,12 +6,13 @@ then
 echo ToRun/$file
     year=`grep "year" ToRun/$file | awk '{print $2}'`
     week=`grep "week" ToRun/$file | awk '{print $2}'`
-    sqlite1=`grep "run1" ToRun/$file | awk '{print $2}'`
-    sqlite2=`grep "run2" ToRun/$file | awk '{print $2}'`
+    sqliteRef=`grep "run1" ToRun/$file | awk '{print $2}'`
+    sqliteNew=`grep "run2" ToRun/$file | awk '{print $2}'`
+    sqlitePed=`grep "sqlite_pedes" ToRun/$file | awk '{print $2}'`
 cp ToRun/$file RunFiles/.
 rm ToRun/$file
-echo "./runHLTEcalLaserValidation.sh $sqlite1 $sqlite2 $week"
-./runHLTEcalLaserValidation.sh $sqlite1 $sqlite2 $week 
+echo "./runHLTEcalLaserValidation.sh $sqliteRef $sqliteNew $sqlitePed $week"
+./runHLTEcalLaserValidation.sh $sqlite1 $sqlite2 $sqlitePed $week 
 git commit -a -m "clean ToRun files"
 git push
 else

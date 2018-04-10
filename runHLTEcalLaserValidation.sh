@@ -8,6 +8,7 @@ GT=92X_dataRun2_HLT_v7
 file=$(cat files_305188.txt)
 reference=$1
 sqlite=DBLaser_${2}_moved_to_1
+sqlitePED=Pedes_${3}
 pathToMonitor=("HLT_Ele3" "HLT_PFMET120_PFMHT120_IDTight"  "HLT_Photon33" "HLT_PFMETTypeOne100_PFMHT100_IDTight_PFHT60" "HLT_Ele27_WPTight_Gsf" )
 maxEvents=100000
 ###############################
@@ -26,7 +27,7 @@ echo "will run : hltGetConfiguration --offline --globaltag " $GT   "--max-events
 
 
 wget http://cern.ch/ecaltrg/DBLaser/${sqlite}.db
-
+wget http://cern.ch/ecaltrg/DBPedestals/${sqlitePED}.db
 
 hltGetConfiguration --online --globaltag $GT   --max-events $maxEvents  --input $(cat files_305188.txt) orcoff:$testMenu > hlt.py
 
@@ -34,7 +35,8 @@ cat fastTimeAdd.py >> hlt.py
 
 
 sed 's/TOADAPT/'$sqlite'/g' hlt.py  > hlt_tmp.py
-sed 's/RUNNUMBERHERE/'${2}'/g' hlt_tmp.py >  hlt_sqlite.py
+sed 's/RUNNUMBERHERE/'${2}'/g' hlt_tmp.py >  hlt_tmp1.py
+sed 's/TOADAPTPEDES/'$sqlitePED'/g' hlt_tmp1.py > hlt_sqlite.py
 
 cmsRun hlt_sqlite.py >&log_sqlite.log 
 
