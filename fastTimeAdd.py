@@ -34,4 +34,10 @@ process.GlobalTag.toGet = cms.VPSet(
            tag = cms.string("EcalLaserAPDPNRatios_RUNNUMBERHERE_beginning_at_1"),
            connect = cms.string("sqlite_file:TOADAPT.db")
           )
+
+process.GlobalTag.toGet = cms.VPSet(
+  cms.PSet(record = cms.string("EcalPedestalsRcd"),
+           tag = cms.string("EcalPedestals_hlt"),
+           connect = cms.string("sqlite_file:TOADAPTPEDES.db")
+          )
 )
