@@ -14,13 +14,13 @@ maxEvents=100000
 ###############################
 
 
-#export CMSREL=CMSSW_9_2_13
-#export SCRAM_ARCH=slc6_amd64_gcc630
-#scram -a $SCRAM_ARCH project $CMSREL
-#cp fastTimeAdd.py  $CMSREL/src/
-#cp files_305188.txt $CMSREL/src/
-#cd $CMSREL/src
-#eval `scram runtime -sh`
+export CMSREL=CMSSW_9_2_13
+export SCRAM_ARCH=slc6_amd64_gcc630
+scram -a $SCRAM_ARCH project $CMSREL
+cp fastTimeAdd.py  $CMSREL/src/
+cp files_305188.txt $CMSREL/src/
+cd $CMSREL/src
+eval `scram runtime -sh`
 
 
 echo "will run : hltGetConfiguration --offline --globaltag " $GT   "--max-events 999999 --timing  --input  "$file "orcoff:"$testMenu 
@@ -35,29 +35,26 @@ echo "process.options = cms.untracked.PSet(
     numberOfThreads = cms.untracked.uint32( 8 ),
     numberOfStreams = cms.untracked.uint32( 0 ),
     sizeOfStackForThreadsInKB = cms.untracked.uint32( 10*1024 )
-)
-" >> hlt.py
+)" >> hlt.py
 
-if [${3} = "laser"]
+if [ $3 = "laser" ]
 then
 echo "process.GlobalTag.toGet = cms.VPSet(
   cms.PSet(record = cms.string(\"EcalLaserAPDPNRatiosRcd\"),
            tag = cms.string(\"EcalLaserAPDPNRatios_${2}_beginning_at_1\"),
            connect = cms.string(\"sqlite_file:${sqlite}.db\")
           )
-)
-" >> hlt.py
+)" >> hlt.py
 wget http://cern.ch/ecaltrg/DBLaser/${sqlite}.db
 fi
-if [${3} = "pedestal"]
+if [ $3 = "pedestal" ]
 then
 echo "process.GlobalTag.toGet = cms.VPSet(
   cms.PSet(record = cms.string(\"EcalPedestalsRcd\"),
            tag = cms.string(\"EcalPedestals_hlt\"),
            connect = cms.string(\"sqlite_file:${sqlitePED}.db\")
           )
-)
-">> hlt.py
+)">> hlt.py
 wget http://cern.ch/ecaltrg/DBPedestals/${sqlitePED}.db
 fi
 
