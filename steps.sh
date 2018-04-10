@@ -1,5 +1,5 @@
 #!/bin/bash -ex
-file=`ls ToRun/`
+file=`ls RunFiles/`
 echo $file
 if [ -f ToRun/$file ]
 then
