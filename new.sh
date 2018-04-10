@@ -12,7 +12,7 @@ echo ToRun/$file
 cp ToRun/$file RunFiles/.
 rm ToRun/$file
 echo "./runHLTEcalLaserValidation.sh $sqliteRef $sqliteNew $sqlitePed $week"
-./runHLTEcalLaserValidation.sh $sqlite1 $sqlite2 $sqlitePed $week 
+./runHLTEcalLaserValidation.sh $sqliteRef $sqliteNew $sqlitePed $week 
 git commit -a -m "clean ToRun files"
 git push
 else
