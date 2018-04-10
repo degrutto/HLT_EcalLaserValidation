@@ -1,6 +1,6 @@
 week 14
 year 2018
 run1 313560
-run2 313560
-type "laser"
+run2 305848
+type pedestal
 
