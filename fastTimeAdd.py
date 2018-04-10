@@ -39,6 +39,6 @@ process.GlobalTag.toGet = cms.VPSet(
 process.GlobalTag.toGet = cms.VPSet(
   cms.PSet(record = cms.string("EcalPedestalsRcd"),
            tag = cms.string("EcalPedestals_hlt"),
-           connect = cms.string("sqlite_file:TOADAPTPEDES.db")
+           connect = cms.string("sqlite_file:PEDES.db")
           )
 )
