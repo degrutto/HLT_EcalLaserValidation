@@ -13,15 +13,15 @@ pathToMonitor=("HLT_Ele3" "HLT_PFMET120_PFMHT120_IDTight"  "HLT_Photon33" "HLT_P
 maxEvents=100000
 ###############################
 
-"""
-export CMSREL=CMSSW_9_2_13
-export SCRAM_ARCH=slc6_amd64_gcc630
-scram -a $SCRAM_ARCH project $CMSREL
-cp fastTimeAdd.py  $CMSREL/src/
-cp files_305188.txt $CMSREL/src/
-cd $CMSREL/src
-eval `scram runtime -sh`
-"""
+
+#export CMSREL=CMSSW_9_2_13
+#export SCRAM_ARCH=slc6_amd64_gcc630
+#scram -a $SCRAM_ARCH project $CMSREL
+#cp fastTimeAdd.py  $CMSREL/src/
+#cp files_305188.txt $CMSREL/src/
+#cd $CMSREL/src
+#eval `scram runtime -sh`
+
 
 echo "will run : hltGetConfiguration --offline --globaltag " $GT   "--max-events 999999 --timing  --input  "$file "orcoff:"$testMenu 
 
