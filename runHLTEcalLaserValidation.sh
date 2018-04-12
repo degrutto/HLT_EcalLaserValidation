@@ -67,10 +67,10 @@ touch outputDiff.log
 for path in ${pathToMonitor[*]}
 do
    printf "checking for    %s\n" $path
-   cat log_sqlite.log | grep $path | grep TrigReport >  $path\_sqlite.log
-   cat log_ref_${1}.log | grep $path | grep TrigReport >  ${path}\_ref_${1}.log 
-   diff $path\_sqlite.log $path\_ref_${1}.log  >> outputDiff.log || true 
+   cat log_sqlite.log | grep $path | grep TrigReport | awk '{print "New normalized rate for path ", $9, $4*100000/$5}' >> outputDiff.log 
+   cat log_ref_${1}.log | grep $path | grep TrigReport | awk '{print "Ref normalized rate for path ", $9, $4*100000/$5}' >> outputDiff.log 
 done
+
 
 if [-f ${WORKSPACE}/upload/$2 ]
 then
@@ -86,15 +86,4 @@ cp log_sqlite.log  ${WORKSPACE}/upload/${2}/log_ref_${2}.log
 cp outputDiff.log ${WORKSPACE}/upload/${2}/outputDiff.log
 
 
-
-#awk 'NR==1 {print "pass ",$5," over ",$6," for reference path using  sqlite1"} ' $pathToMonitor\_sqlite1.log > diff.txt
-#awk 'NR==1 {print "pass ",$5," over ",$6," for reference path using  sqlite2"} ' $pathToMonitor\_sqlite2.log >> diff.txt
-
-
-#awk 'NR==3 {print "timing " $2," for reference path using sqlite1"} ' $pathToMonitor\_sqlite1.log >> diff.txt
-#awk 'NR==3 {print "timing " $2," for reference path using sqlite2"} ' $pathToMonitor\_sqlite2.log >> diff.txt
-
-
-#echo " difference in counts and timing using the two sqlite files is "
-#cat diff.txt
 
