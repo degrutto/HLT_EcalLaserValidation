@@ -1,6 +1,5 @@
-0;95;cweek 14
+week 16
 year 2018
-run1 305848
-run2 313760
-type pedestal
-
+run1 313560
+run2 314663
+type laser
