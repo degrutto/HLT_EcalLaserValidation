@@ -9,6 +9,8 @@ file=$(cat files_305188.txt)
 reference=$1
 sqlite=DBLaser_${2}_moved_to_1
 sqlitePED=Pedes_${2}
+sqlitePULSE=ecaltemplates_popcon_run_${2}
+sqliteTIME=ecaltimingic_popcon_run_${2}
 pathToMonitor=("HLT_Ele32_WPTight_Gsf_v" "HLT_Ele35_WPTight_Gsf_v" "HLT_Ele35_WPTight_Gsf_L1EGMT_v" "HLT_Ele38_WPTight_Gsf_v" "HLT_Ele30_eta2p1_WPTight_Gsf_CentralPFJet35_EleCleaned_v" "HLT_Photon33_v" "HLT_PFMET120_PFMHT120_IDTight_v" "HLT_PFMET100_PFMHT100_IDTight_PFHT60_v" "HLT_PFMETTypeOne120_PFMHT120_IDTight_v" )
 maxEvents=100000
 ###############################
@@ -56,6 +58,24 @@ echo "process.GlobalTag.toGet = cms.VPSet(
           )
 )">> hlt.py
 wget http://cern.ch/ecaltrg/DBPedestals/${sqlitePED}.db
+fi
+if [ $3 = "pulse" ]
+then
+echo "process.GlobalTag.toGet = cms.VPSet(
+  cms.PSet(record = cms.string(\"EcalPulseShapesRcd\"),
+           tag = cms.string(\"EcalPulseShapes_${2}_beginning_at_1\"),
+           connect = cms.string(\"sqlite_file:${sqlitePULSE}.db\")
+          )
+)">> hlt.py
+wget https://emanuele.web.cern.ch/emanuele/public/ECAL/jenkins/devel/${sqlitePULSE}.db
+echo "process.GlobalTag.toGet = cms.VPSet(
+  cms.PSet(record = cms.string(\"EcalTimeCalibConstantsRcd\"),
+           tag = cms.string(\"EcalTimeCalibConstants_${2}_beginning_at_1\"),
+           connect = cms.string(\"sqlite_file:${sqliteTIME}.db\")
+          )
+)">> hlt.py
+wget https://emanuele.web.cern.ch/emanuele/public/ECAL/jenkins/devel/${sqliteTIME}.db
+
 fi
 
 cmsRun hlt.py >&log_sqlite.log 
