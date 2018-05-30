@@ -68,13 +68,13 @@ echo "process.GlobalTag.toGet = cms.VPSet(
           )
 )">> hlt.py
 wget https://emanuele.web.cern.ch/emanuele/public/ECAL/jenkins/devel/${sqlitePULSE}.db
-echo "process.GlobalTag.toGet = cms.VPSet(
-  cms.PSet(record = cms.string(\"EcalTimeCalibConstantsRcd\"),
-           tag = cms.string(\"EcalTimeCalibConstants_${2}_beginning_at_1\"),
-           connect = cms.string(\"sqlite_file:${sqliteTIME}.db\")
-          )
-)">> hlt.py
-wget https://emanuele.web.cern.ch/emanuele/public/ECAL/jenkins/devel/${sqliteTIME}.db
+#echo "process.GlobalTag.toGet = cms.VPSet(
+#  cms.PSet(record = cms.string(\"EcalTimeCalibConstantsRcd\"),
+#           tag = cms.string(\"EcalTimeCalibConstants_${2}_beginning_at_1\"),
+#           connect = cms.string(\"sqlite_file:${sqliteTIME}.db\")
+#          )
+#)">> hlt.py
+#wget https://emanuele.web.cern.ch/emanuele/public/ECAL/jenkins/devel/${sqliteTIME}.db
 
 fi
 
