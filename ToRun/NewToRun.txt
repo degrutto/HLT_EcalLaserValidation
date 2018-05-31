@@ -1,7 +1,5 @@
 week 22
 year 2018
-run1 314900
-run2 315646
-type pulse
-
-#available type : laser, pedestal, pulse
+run1 317022
+run2 317265
+type laser
