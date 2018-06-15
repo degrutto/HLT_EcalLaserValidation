@@ -3,9 +3,8 @@
 sleep 5
  
 ###############################
-testMenu=/cdaq/physics/Run2017/2e34/v4.0.1/HLT/V1
-GT=92X_dataRun2_HLT_v7
-file=$(cat files_305188.txt)
+testMenu=/cdaq/physics/Run2018/2e34/v2.0.1/HLT/V1
+GT=101X_dataRun2_HLT_v7
 reference=$1
 sqlite=DBLaser_${2}_moved_to_1
 sqlitePED=Pedes_${2}
@@ -16,20 +15,29 @@ maxEvents=100000
 ###############################
 
 
-export CMSREL=CMSSW_9_2_13
+export CMSREL=CMSSW_10_1_4
 export SCRAM_ARCH=slc6_amd64_gcc630
 scram -a $SCRAM_ARCH project $CMSREL
-cp fastTimeAdd.py  $CMSREL/src/
-cp files_305188.txt $CMSREL/src/
+cp files_316058.txt $CMSREL/src/
 cd $CMSREL/src
 eval `scram runtime -sh`
 
 
-echo "will run : hltGetConfiguration --offline --globaltag " $GT   "--max-events 999999 --timing  --input  "$file "orcoff:"$testMenu 
+echo "will run : hltGetConfiguration --offline --globaltag " $GT   "--max-events 999999 orcoff:"$testMenu 
 
 
 
-hltGetConfiguration --online --globaltag $GT   --max-events $maxEvents  --input $(cat files_305188.txt) orcoff:$testMenu > hlt.py
+hltGetConfiguration --online --globaltag $GT   --max-events $maxEvents  orcoff:$testMenu > hlt.py
+
+
+
+echo "process.source.fileNames = cms.untracked.vstring()," >> hlt.py
+echo "process.source.fileNames.extend([" >> hlt.py
+cat files_Run_316058.txt >> hlt.py
+echo "])" >> hlt.py
+
+
+
 
 #cat fastTimeAdd.py >> hlt.py
 echo "process.options = cms.untracked.PSet(
