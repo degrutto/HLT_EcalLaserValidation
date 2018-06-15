@@ -18,7 +18,7 @@ maxEvents=100000
 export CMSREL=CMSSW_10_1_4
 export SCRAM_ARCH=slc6_amd64_gcc630
 scram -a $SCRAM_ARCH project $CMSREL
-cp files_316058.txt $CMSREL/src/
+cp files_Run_316058.txt $CMSREL/src/
 cd $CMSREL/src
 eval `scram runtime -sh`
 
