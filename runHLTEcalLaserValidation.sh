@@ -6,6 +6,7 @@ sleep 5
 testMenu=/cdaq/physics/Run2018/2e34/v2.0.1/HLT/V1
 GT=101X_dataRun2_HLT_v7
 reference=$1
+listaFiles=files_Run_316058.txt
 sqlite=DBLaser_${2}_moved_to_1
 sqlitePED=Pedes_${2}
 sqlitePULSE=ecaltemplates_popcon_run_${2}
@@ -18,7 +19,7 @@ maxEvents=100000
 export CMSREL=CMSSW_10_1_4
 export SCRAM_ARCH=slc6_amd64_gcc630
 scram -a $SCRAM_ARCH project $CMSREL
-cp files_Run_316058.txt $CMSREL/src/
+cp $listaFiles $CMSREL/src/
 cd $CMSREL/src
 eval `scram runtime -sh`
 
@@ -31,9 +32,9 @@ hltGetConfiguration --online --globaltag $GT   --max-events $maxEvents  orcoff:$
 
 
 
-echo "process.source.fileNames = cms.untracked.vstring()," >> hlt.py
+echo "process.source.fileNames = cms.untracked.vstring()" >> hlt.py
 echo "process.source.fileNames.extend([" >> hlt.py
-cat files_Run_316058.txt >> hlt.py
+cat $listaFiles >> hlt.py
 echo "])" >> hlt.py
 
 
