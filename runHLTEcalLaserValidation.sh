@@ -12,7 +12,7 @@ sqlitePED=Pedes_${2}
 sqlitePULSE=ecaltemplates_popcon_run_${2}
 sqliteTIME=ecaltimingic_popcon_run_${2}
 pathToMonitor=("HLT_Ele32_WPTight_Gsf_v" "HLT_Ele35_WPTight_Gsf_v" "HLT_Ele35_WPTight_Gsf_L1EGMT_v" "HLT_Ele38_WPTight_Gsf_v" "HLT_Ele30_eta2p1_WPTight_Gsf_CentralPFJet35_EleCleaned_v" "HLT_Photon33_v" "HLT_PFMET120_PFMHT120_IDTight_v" "HLT_PFMET100_PFMHT100_IDTight_PFHT60_v" "HLT_PFMETTypeOne120_PFMHT120_IDTight_v" )
-maxEvents=1000
+maxEvents=10000
 ###############################
 
 
@@ -90,9 +90,14 @@ fi
 cmsRun hlt.py >&log_sqlite.log 
 
 #it may be gzipped infact ...
-#wget https://cmssdt.cern.ch/SDT/public/EcalLaserValidation/HLT_EcalLaserValidation/${1}_${3}/log_ref_${1}_${3}.log
-wget https://cmssdt.cern.ch/SDT/public/EcalLaserValidation/HLT_EcalLaserValidation/${1}/log_ref_${1}.log
 
+
+retval=$?
+wget https://cmssdt.cern.ch/SDT/public/EcalLaserValidation/HLT_EcalLaserValidation/${1}_${3}/log_ref_${1}_${3}.log $retval
+if [ $retval -ne 0 ]; then
+    wget https://cmssdt.cern.ch/SDT/public/EcalLaserValidation/HLT_EcalLaserValidation/${1}/log_ref_${1}.log
+    mv log_ref_${1}.log  log_ref_${1}_${3}.log 
+fi
 touch outputDiff.log
 for path in ${pathToMonitor[*]}
 do
