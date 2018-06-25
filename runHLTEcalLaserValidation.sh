@@ -12,7 +12,7 @@ sqlitePED=Pedes_${2}
 sqlitePULSE=ecaltemplates_popcon_run_${2}
 sqliteTIME=ecaltimingic_popcon_run_${2}
 pathToMonitor=("HLT_Ele32_WPTight_Gsf_v" "HLT_Ele35_WPTight_Gsf_v" "HLT_Ele35_WPTight_Gsf_L1EGMT_v" "HLT_Ele38_WPTight_Gsf_v" "HLT_Ele30_eta2p1_WPTight_Gsf_CentralPFJet35_EleCleaned_v" "HLT_Photon33_v" "HLT_PFMET120_PFMHT120_IDTight_v" "HLT_PFMET100_PFMHT100_IDTight_PFHT60_v" "HLT_PFMETTypeOne120_PFMHT120_IDTight_v" )
-maxEvents=10000
+maxEvents=1
 ###############################
 
 
@@ -91,13 +91,14 @@ cmsRun hlt.py >&log_sqlite.log
 
 #it may be gzipped infact ...
 
+if [[ `wget -S --spider https://cmssdt.cern.ch/SDT/public/EcalLaserValidation/HLT_EcalLaserValidation/${1}_${3}/log_ref_${1}_${3}.log   2>&1 | grep 'HTTP/1.1 200 OK'` ]]
+then 
+    wget https://cmssdt.cern.ch/SDT/public/EcalLaserValidation/HLT_EcalLaserValidation/${1}_${3}/log_ref_${1}_${3}.log
+else
+    wget https://cmssdt.cern.ch/SDT/public/EcalLaserValidation/HLT_EcalLaserValidation/${1}/log_ref_${1}.log
+    mv log_ref_${1}.log  log_ref_${1}_${3}.log 
+fi
 
-{
-wget https://cmssdt.cern.ch/SDT/public/EcalLaserValidation/HLT_EcalLaserValidation/${1}_${3}/log_ref_${1}_${3}.log &&
-} || {
-wget https://cmssdt.cern.ch/SDT/public/EcalLaserValidation/HLT_EcalLaserValidation/${1}/log_ref_${1}.log
-mv log_ref_${1}.log  log_ref_${1}_${3}.log 
-}
 touch outputDiff.log
 for path in ${pathToMonitor[*]}
 do
