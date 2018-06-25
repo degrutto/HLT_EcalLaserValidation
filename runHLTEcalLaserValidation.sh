@@ -90,29 +90,29 @@ fi
 cmsRun hlt.py >&log_sqlite.log 
 
 #it may be gzipped infact ...
-wget https://cmssdt.cern.ch/SDT/public/EcalLaserValidation/HLT_EcalLaserValidation/${1}/log_ref_${1}.log
+wget https://cmssdt.cern.ch/SDT/public/EcalLaserValidation/HLT_EcalLaserValidation/${1}_${3}/log_ref_${1}_${3}.log
 
 touch outputDiff.log
 for path in ${pathToMonitor[*]}
 do
    printf "checking for    %s\n" $path
    cat log_sqlite.log | grep $path | grep TrigReport | grep -v "\-----" | awk '{if ($5 != 0) print "New normalized rate for path ", $8, $5*100000/$4}' >> outputDiff.log 
-   cat log_ref_${1}.log | grep $path | grep TrigReport |grep -v "\-----" |  awk '{if ($5 !=0)  print "Ref normalized rate for path ", $8, $5*100000/$4}' >> outputDiff.log 
+   cat log_ref_${1}_${3}.log | grep $path | grep TrigReport |grep -v "\-----" |  awk '{if ($5 !=0)  print "Ref normalized rate for path ", $8, $5*100000/$4}' >> outputDiff.log 
 done
 
 
-if [-f ${WORKSPACE}/upload/$2 ]
+if [-f ${WORKSPACE}/upload/${2}_${3} ]
 then
   echo "dir is already existing"
-  touch ${WORKSPACE}/upload/$2/.jenkins-upload
+  touch ${WORKSPACE}/upload/${2}_${3}/.jenkins-upload
 else
-    mkdir ${WORKSPACE}/upload/$2
-    touch ${WORKSPACE}/upload/$2/.jenkins-upload
+    mkdir ${WORKSPACE}/upload/${2}_${3}
+    touch ${WORKSPACE}/upload/${2}_${3}/.jenkins-upload
 fi
 
 #we need to make a tar gz of this one
-cp log_sqlite.log  ${WORKSPACE}/upload/${2}/log_ref_${2}.log 
-cp outputDiff.log ${WORKSPACE}/upload/${2}/outputDiff.log
+cp log_sqlite.log  ${WORKSPACE}/upload/${2}_${3}/log_ref_${2}_${3}.log 
+cp outputDiff.log ${WORKSPACE}/upload/${2}_${3}/outputDiff.log
 
 
 
