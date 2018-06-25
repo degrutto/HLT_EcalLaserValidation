@@ -96,8 +96,8 @@ touch outputDiff.log
 for path in ${pathToMonitor[*]}
 do
    printf "checking for    %s\n" $path
-   cat log_sqlite.log | grep $path | grep TrigReport | grep -v "\-----" | awk '{print "New normalized rate for path ", $8, $5*100000/$4}' >> outputDiff.log 
-   cat log_ref_${1}.log | grep $path | grep TrigReport |grep -v "\-----" |  awk '{print "Ref normalized rate for path ", $8, $5*100000/$4}' >> outputDiff.log 
+   cat log_sqlite.log | grep $path | grep TrigReport | grep -v "\-----" | awk '{if ($5 != 0) print "New normalized rate for path ", $8, $5*100000/$4}' >> outputDiff.log 
+   cat log_ref_${1}.log | grep $path | grep TrigReport |grep -v "\-----" |  awk '{if ($5 !=0)  print "Ref normalized rate for path ", $8, $5*100000/$4}' >> outputDiff.log 
 done
 
 
