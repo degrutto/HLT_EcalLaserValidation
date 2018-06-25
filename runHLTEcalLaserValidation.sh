@@ -92,12 +92,12 @@ cmsRun hlt.py >&log_sqlite.log
 #it may be gzipped infact ...
 
 
-retval=$?
-wget https://cmssdt.cern.ch/SDT/public/EcalLaserValidation/HLT_EcalLaserValidation/${1}_${3}/log_ref_${1}_${3}.log $retval
-if [ $retval -ne 0 ]; then
-    wget https://cmssdt.cern.ch/SDT/public/EcalLaserValidation/HLT_EcalLaserValidation/${1}/log_ref_${1}.log
-    mv log_ref_${1}.log  log_ref_${1}_${3}.log 
-fi
+{
+wget https://cmssdt.cern.ch/SDT/public/EcalLaserValidation/HLT_EcalLaserValidation/${1}_${3}/log_ref_${1}_${3}.log &&
+} || {
+wget https://cmssdt.cern.ch/SDT/public/EcalLaserValidation/HLT_EcalLaserValidation/${1}/log_ref_${1}.log
+mv log_ref_${1}.log  log_ref_${1}_${3}.log 
+}
 touch outputDiff.log
 for path in ${pathToMonitor[*]}
 do
