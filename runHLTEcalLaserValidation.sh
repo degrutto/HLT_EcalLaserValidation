@@ -4,7 +4,8 @@ sleep 5
  
 ###############################
 testMenu=/cdaq/physics/Run2018/2e34/v2.0.1/HLT/V1
-GT=101X_dataRun2_HLT_v7
+#GT=101X_dataRun2_HLT_v7
+GT=101X_dataRun2_HLT_SiPixelQualityv9_v1
 reference=$1
 listaFiles=files_Run_316058.txt
 sqlite=DBLaser_${2}_moved_to_1
