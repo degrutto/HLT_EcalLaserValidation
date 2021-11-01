@@ -5,7 +5,9 @@ short script ecal laser calibrations fast validation at HLT
 
 git init
 
-git clone https://github.com/EcalLaserValidation/HLT_EcalLaserValidation.git
+#git clone https://github.com/EcalLaserValidation/HLT_EcalLaserValidation.git
+
+2021: git clone git@github.com:EcalLaserValidation/HLT_EcalLaserValidation.git
 
 cd  HLT_EcalLaserValidation
 
