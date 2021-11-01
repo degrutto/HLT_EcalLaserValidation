@@ -116,7 +116,7 @@ do
    cat log_sqlite.log | grep $path | grep TrigReport | grep -v "\-----" | awk '{if ($5 != 0) print "New normalized rate for path ", $8, $5*100000/$4}' >> outputDiff.log 
    cat log_ref_${1}_${3}.log | grep $path | grep TrigReport |grep -v "\-----" |  awk '{if ($5 !=0)  print "Ref normalized rate for path ", $8, $5*100000/$4}' >> outputDiff.log 
 done
-'''
+
 
 if [-f ${WORKSPACE}/upload/${2}_${3} ]
 then
@@ -131,5 +131,5 @@ fi
 cp log_sqlite.log  ${WORKSPACE}/upload/${2}_${3}/log_ref_${2}_${3}.log 
 cp outputDiff.log ${WORKSPACE}/upload/${2}_${3}/outputDiff.log
 
-'''
+
 
