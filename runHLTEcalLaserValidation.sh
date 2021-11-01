@@ -3,33 +3,41 @@
 sleep 5
  
 ###############################
-testMenu=/cdaq/physics/Run2018/2e34/v2.0.1/HLT/V1
+#testMenu=/cdaq/physics/Run2018/2e34/v2.0.1/HLT/V1
 #GT=101X_dataRun2_HLT_v7
-GT=101X_dataRun2_HLT_SiPixelQualityv9_v1
+#GT=101X_dataRun2_HLT_SiPixelQualityv9_v1
 reference=$1
-listaFiles=files_Run_316058.txt
+listaFiles=files_Run_323775.txt
 sqlite=DBLaser_${2}_moved_to_1
 sqlitePED=Pedes_${2}
 sqlitePULSE=ecaltemplates_popcon_run_${2}
 sqliteTIME=ecaltimingic_popcon_run_${2}
 pathToMonitor=("HLT_Ele32_WPTight_Gsf_v" "HLT_Ele35_WPTight_Gsf_v" "HLT_Ele35_WPTight_Gsf_L1EGMT_v" "HLT_Ele38_WPTight_Gsf_v" "HLT_Ele30_eta2p1_WPTight_Gsf_CentralPFJet35_EleCleaned_v" "HLT_Photon33_v" "HLT_PFMET120_PFMHT120_IDTight_v" "HLT_PFMET100_PFMHT100_IDTight_PFHT60_v" "HLT_PFMETTypeOne120_PFMHT120_IDTight_v" )
-maxEvents=100000
+maxEvents=10000
 ###############################
 
 
-export CMSREL=CMSSW_10_1_4
-export SCRAM_ARCH=slc6_amd64_gcc630
+#export CMSREL=CMSSW_10_1_4
+#export SCRAM_ARCH=slc6_amd64_gcc630
+#scram -a $SCRAM_ARCH project $CMSREL
+export CMSREL=CMSSW_12_0_1
+export SCRAM_ARCH=slc7_amd64_gcc900
 scram -a $SCRAM_ARCH project $CMSREL
-cp $listaFiles $CMSREL/src/
+
+#listaFiles 
+cp $listaFiles $CMSREL/src/.
+#hlt.py made from recipe: https://twiki.cern.ch/twiki/bin/view/CMS/SteamHLTRatesCalculation
+#hltGetConfiguration  /dev/CMSSW_12_0_0/GRun --full --offline --no-output --data --process MYHLT --type GRun --prescale 2.0e34+ZB+HLTPhysics --globaltag auto:run3_hlt_GRun --max-events -1 > hlt.py and changes therin
+
+cp hlt.py $CMSREL/src/.
+
+
 cd $CMSREL/src
 eval `scram runtime -sh`
 
 
-echo "will run : hltGetConfiguration --offline --globaltag " $GT   "--max-events 999999 orcoff:"$testMenu 
-
-
-
-hltGetConfiguration --online --globaltag $GT   --max-events $maxEvents  orcoff:$testMenu > hlt.py
+#echo "will run : hltGetConfiguration --offline --globaltag " $GT   "--max-events 999999 orcoff:"$testMenu 
+#hltGetConfiguration --online --globaltag $GT   --max-events $maxEvents  orcoff:$testMenu > hlt.py
 
 
 
@@ -38,7 +46,7 @@ echo "process.source.fileNames.extend([" >> hlt.py
 cat $listaFiles >> hlt.py
 echo "])" >> hlt.py
 
-
+sed -e "s,%maxevents%,$maxEvents,g" -i hlt.py
 
 
 #cat fastTimeAdd.py >> hlt.py
@@ -88,9 +96,10 @@ wget https://emanuele.web.cern.ch/emanuele/public/ECAL/jenkins/devel/${sqlitePUL
 
 fi
 
-cmsRun hlt.py >&log_sqlite.log 
+#edmConfigDump hlt.py > hlt_config.py
+#cmsRun hlt_config.py >&log_sqlite.log 
 
-#it may be gzipped infact ...
+#it may be gzipped in fact ...
 
 if [[ `wget -S --spider https://cmssdt.cern.ch/SDT/public/EcalLaserValidation/HLT_EcalLaserValidation/${1}_${3}/log_ref_${1}_${3}.log   2>&1 | grep 'HTTP/1.1 200 OK'` ]]
 then 
@@ -107,7 +116,7 @@ do
    cat log_sqlite.log | grep $path | grep TrigReport | grep -v "\-----" | awk '{if ($5 != 0) print "New normalized rate for path ", $8, $5*100000/$4}' >> outputDiff.log 
    cat log_ref_${1}_${3}.log | grep $path | grep TrigReport |grep -v "\-----" |  awk '{if ($5 !=0)  print "Ref normalized rate for path ", $8, $5*100000/$4}' >> outputDiff.log 
 done
-
+'''
 
 if [-f ${WORKSPACE}/upload/${2}_${3} ]
 then
@@ -122,5 +131,5 @@ fi
 cp log_sqlite.log  ${WORKSPACE}/upload/${2}_${3}/log_ref_${2}_${3}.log 
 cp outputDiff.log ${WORKSPACE}/upload/${2}_${3}/outputDiff.log
 
-
+'''
 
