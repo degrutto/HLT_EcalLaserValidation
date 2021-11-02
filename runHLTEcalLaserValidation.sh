@@ -97,7 +97,7 @@ wget https://emanuele.web.cern.ch/emanuele/public/ECAL/jenkins/devel/${sqlitePUL
 fi
 
 #edmConfigDump hlt.py > hlt_config.py
-#cmsRun hlt_config.py >&log_sqlite.log 
+cmsRun hlt.py >&log_sqlite.log 
 
 #it may be gzipped in fact ...
 
