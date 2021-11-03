@@ -104,15 +104,21 @@ eval `scram runtime -sh`
 		fi
 
 		#edmConfigDump hlt.py > hlt_config.py
-		cmsRun hlt_${s}.py >&log_sqlite_${s}.log
-		touch outputDiff.log
+		if [ $jobs_in_parallel -gt 1 ] ; then
+                      while [ $(jobs | wc -l) -ge $jobs_in_parallel ] ; do sleep 5 ; done
+		       cmsRun hlt_${s}.py >&log_sqlite_${s}.log &
+                    else
+  		       cmsRun hlt_${s}.py >&log_sqlite_${s}.log 
+                fi
+	fi	
+	done
+
+		wait
 		for path in ${pathToMonitor[*]}
 		do
 		    printf "checking for    %s\n" $path
-		    cat log_sqlite_${s}.log | grep $path | grep TrigReport | grep -v "\-----" | awk '{if ($5 != 0) print "New normalized rate for path ", $8, $5*100000/$4}' >> output_sqlite_$path.log
+		    cat log_sqlite_${s}.log | grep $path | grep TrigReport | grep -v "\-----" | awk '{if ($5 != 0) print "New normalized rate for path ", $8, $5}' >> output_sqlite_$path.log
 		done
-	fi	
-	done
 	for path in ${pathToMonitor[*]}
 		do
 	       awk -F" " '{sum+=$7}END{print "New normalized rate for path " $6,sum}' output_sqlite_$path.log >> output_sqlite.log	
