@@ -11,8 +11,8 @@ echo ToRun/$file
     label=`grep "type" ToRun/$file | awk '{print $2}'`
 cp ToRun/$file RunFiles/.
 rm ToRun/$file
-echo "./runHLTEcalLaserValidation.sh $sqliteRef $sqliteNew $label $week"
-./runHLTEcalLaserValidation.sh $sqliteRef $sqliteNew $label $week 
+echo "./runHLTEcalLaserValidation_2021.sh $sqliteRef $sqliteNew $label $week"
+./runHLTEcalLaserValidation_2021.sh $sqliteRef $sqliteNew $label $week 
 else
 echo "No new files"
 fi
