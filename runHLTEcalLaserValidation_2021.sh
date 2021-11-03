@@ -59,7 +59,8 @@ eval `scram runtime -sh`
 		#cat fastTimeAdd.py >> hlt.py
 		echo "process.options = cms.untracked.PSet(
                 wantSummary = cms.untracked.bool( True ),
-                numberOfThreads = cms.untracked.uint32( $(nproc) ),
+                #numberOfThreads = cms.untracked.uint32( $(nproc) ),
+                numberOfThreads = cms.untracked.uint32( 1 ),
                 numberOfStreams = cms.untracked.uint32( 0 ),
                 sizeOfStackForThreadsInKB = cms.untracked.uint32( 10*1024 )
                 )" >> hlt_${s}.py

@@ -12,8 +12,8 @@ echo ToRun/$file
 cp ToRun/$file RunFiles/.
 rm ToRun/$file
 echo "./runHLTEcalLaserValidation_2021.sh $sqliteRef $sqliteNew $label $week"
-#./runHLTEcalLaserValidation_2021.sh $sqliteRef $sqliteNew $label $week $(getconf _NPROCESSORS_ONLN)
-./runHLTEcalLaserValidation_2021.sh $sqliteRef $sqliteNew $label $week 
+./runHLTEcalLaserValidation_2021.sh $sqliteRef $sqliteNew $label $week $(getconf _NPROCESSORS_ONLN)
+#./runHLTEcalLaserValidation_2021.sh $sqliteRef $sqliteNew $label $week 
 else
 echo "No new files"
 fi
