@@ -13,8 +13,8 @@ sqlitePED=Pedes_${2}
 sqlitePULSE=ecaltemplates_popcon_run_${2}
 sqliteTIME=ecaltimingic_popcon_run_${2}
 pathToMonitor=("HLT_Ele32_WPTight_Gsf_v" "HLT_Ele35_WPTight_Gsf_v" "HLT_Ele35_WPTight_Gsf_L1EGMT_v" "HLT_Ele38_WPTight_Gsf_v" "HLT_Ele30_eta2p1_WPTight_Gsf_CentralPFJet35_EleCleaned_v" "HLT_Photon33_v" "HLT_PFMET120_PFMHT120_IDTight_v" "HLT_PFMET100_PFMHT100_IDTight_PFHT60_v" "HLT_PFMETTypeOne120_PFMHT120_IDTight_v" )
-maxEvents=1000
-max_file_num=10
+maxEvents=2000
+max_file_num=50
 ###############################
 jobs_in_parallel=$5
 if [ "$jobs_in_parallel" = "" ] ; then jobs_in_parallel=1; fi
@@ -122,7 +122,7 @@ do
     for path in ${pathToMonitor[*]}
     do
 	printf "checking for    %s\n" $path
-	cat $line | grep $path | grep TrigReport | grep -v "\-----" | awk '{if ($5 != 0) print "New normalized rate for path ", $8, $5*1000/$4}' >> output_sqlite_$path.log
+	cat $line | grep $path | grep TrigReport | grep -v "\-----" | awk '{if ($5 != 0) print "New normalized rate for path ", $8, $5*2000/$4}' >> output_sqlite_$path.log
     done
 done
 
