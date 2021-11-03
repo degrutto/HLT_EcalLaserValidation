@@ -111,7 +111,7 @@ eval `scram runtime -sh`
 		    printf "checking for    %s\n" $path
 		    cat log_sqlite_${s}.log | grep $path | grep TrigReport | grep -v "\-----" | awk '{if ($5 != 0) print "New normalized rate for path ", $8, $5*100000/$4}' >> output_sqlite_$path.log
 		done
-		
+	fi	
 	done
 	for path in ${pathToMonitor[*]}
 		do
