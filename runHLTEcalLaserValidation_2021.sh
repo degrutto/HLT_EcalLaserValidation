@@ -33,7 +33,7 @@ cp $listaFiles $CMSREL/src/.
 
 cp hlt.py $CMSREL/src/.
 cp output_ref_${1}_${3}.log $CMSREL/src/. #only for the first time test to be commented
-
+#cp output_sqlite.log $CMSREL/src/. #only for the first time test to be commented
 cd $CMSREL/src
 eval `scram runtime -sh`
 
@@ -52,7 +52,7 @@ eval `scram runtime -sh`
 		cp hlt.py hlt_${s}.py
 		echo "process.source.fileNames = cms.untracked.vstring()" >> hlt_${s}.py
 		echo "process.source.fileNames.extend([" >> hlt_${s}.py
-		cat $myfile >> hlt_${s}.py
+		echo $myfile >> hlt_${s}.py
 		echo "])" >> hlt_${s}.py
 
 		sed -e "s,%maxevents%,$maxEvents,g" -i hlt_${s}.py
@@ -104,7 +104,7 @@ eval `scram runtime -sh`
 		fi
 
 		#edmConfigDump hlt.py > hlt_config.py
-		cmsRun hlt_${s}.py >&log_sqlite_${s}.log
+		#cmsRun hlt_${s}.py >&log_sqlite_${s}.log
 		touch outputDiff.log
 		for path in ${pathToMonitor[*]}
 		do
