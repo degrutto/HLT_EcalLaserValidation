@@ -115,7 +115,7 @@ eval `scram runtime -sh`
 	done
 	for path in ${pathToMonitor[*]}
 		do
-	       awk -F" " '{sum+=$7}END{print "New normalized rate for path " $6,sum}' output_sqlite_${6}.log >> output_sqlite.log	
+	       awk -F" " '{sum+=$7}END{print "New normalized rate for path " $6,sum}' output_sqlite_$path.log >> output_sqlite.log	
 	       done
 
 	#wget https://cmssdt.cern.ch/SDT/public/EcalLaserValidation/HLT_EcalLaserValidation/${1}_${3}/output_ref_${1}_${3}.log
@@ -139,7 +139,12 @@ else
 fi
 
 #we need to make a tar gz of this one
-cp output_sqlite_*.log ${WORKSPACE}/upload/${2}_${3}/.
+	for path in ${pathToMonitor[*]}
+		do
+		    cp output_sqlite_$path.log ${WORKSPACE}/upload/${2}_${3}/output_sqlite_$path.log
+	done
+
+
 cp output_sqlite.log  ${WORKSPACE}/upload/${2}_${3}/output_ref_${2}_${3}.log 
 cp outputDiff.log ${WORKSPACE}/upload/${2}_${3}/outputDiff.log
 
