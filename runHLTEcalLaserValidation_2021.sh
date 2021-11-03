@@ -104,7 +104,7 @@ eval `scram runtime -sh`
 		fi
 
 		#edmConfigDump hlt.py > hlt_config.py
-		#cmsRun hlt_${s}.py >&log_sqlite_${s}.log
+		cmsRun hlt_${s}.py >&log_sqlite_${s}.log
 		touch outputDiff.log
 		for path in ${pathToMonitor[*]}
 		do
