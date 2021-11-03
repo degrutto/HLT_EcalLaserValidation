@@ -113,16 +113,22 @@ eval `scram runtime -sh`
 	fi	
 	done
 
-		wait
-		for path in ${pathToMonitor[*]}
-		do
-		    printf "checking for    %s\n" $path
-		    cat log_sqlite_${s}.log | grep $path | grep TrigReport | grep -v "\-----" | awk '{if ($5 != 0) print "New normalized rate for path ", $8, $5*1000/$4}' >> output_sqlite_$path.log
-		done
-	for path in ${pathToMonitor[*]}
-		do
-	       awk -F" " '{sum+=$7}END{print "New normalized rate for path " $6,sum}' output_sqlite_$path.log >> output_sqlite.log	
-	       done
+	wait
+	
+ls log_sqlite_*.log > ls_log_sqlite.txt
+for line in $(less ls_log_sqlite.txt)
+do
+    for path in ${pathToMonitor[*]}
+    do
+	printf "checking for    %s\n" $path
+	cat $line | grep $path | grep TrigReport | grep -v "\-----" | awk '{if ($5 != 0) print "New normalized rate for path ", $8, $5*1000/$4}' >> output_sqlite_$path.log
+    done
+done
+
+for path in ${pathToMonitor[*]}
+do
+    awk -F" " '{sum+=$7}END{print "New normalized rate for path " $6,sum}' output_sqlite_$path.log >> output_sqlite.log
+done
 
 	#wget https://cmssdt.cern.ch/SDT/public/EcalLaserValidation/HLT_EcalLaserValidation/${1}_${3}/output_ref_${1}_${3}.log
 
@@ -145,12 +151,6 @@ else
 fi
 
 #we need to make a tar gz of this one
-	for path in ${pathToMonitor[*]}
-		do
-		    cp output_sqlite_$path.log ${WORKSPACE}/upload/${2}_${3}/output_sqlite_$path.log
-	done
-
-
 cp output_sqlite.log  ${WORKSPACE}/upload/${2}_${3}/output_ref_${2}_${3}.log 
 cp outputDiff.log ${WORKSPACE}/upload/${2}_${3}/outputDiff.log
 
