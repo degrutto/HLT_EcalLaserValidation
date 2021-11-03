@@ -13,8 +13,8 @@ sqlitePED=Pedes_${2}
 sqlitePULSE=ecaltemplates_popcon_run_${2}
 sqliteTIME=ecaltimingic_popcon_run_${2}
 pathToMonitor=("HLT_Ele32_WPTight_Gsf_v" "HLT_Ele35_WPTight_Gsf_v" "HLT_Ele35_WPTight_Gsf_L1EGMT_v" "HLT_Ele38_WPTight_Gsf_v" "HLT_Ele30_eta2p1_WPTight_Gsf_CentralPFJet35_EleCleaned_v" "HLT_Photon33_v" "HLT_PFMET120_PFMHT120_IDTight_v" "HLT_PFMET100_PFMHT100_IDTight_PFHT60_v" "HLT_PFMETTypeOne120_PFMHT120_IDTight_v" )
-maxEvents=2000
-max_file_num=5
+maxEvents=1000
+max_file_num=10
 ###############################
 jobs_in_parallel=$5
 if [ "$jobs_in_parallel" = "" ] ; then jobs_in_parallel=1; fi
@@ -72,7 +72,7 @@ eval `scram runtime -sh`
                     connect = cms.string(\"sqlite_file:${sqlite}.db\")
                               )
                     )" >> hlt_${s}.py
-		    wget http://cern.ch/ecaltrg/DBLaser/${sqlite}.db
+		    if [ ! -f ${sqlite}.db ]; then wget http://cern.ch/ecaltrg/DBLaser/${sqlite}.db;fi
 		fi
 		if [ $3 = "pedestal" ]
 		then
@@ -82,7 +82,7 @@ eval `scram runtime -sh`
                     connect = cms.string(\"sqlite_file:${sqlitePED}.db\")
                               )
                     )">> hlt_${s}.py
-		    wget http://cern.ch/ecaltrg/DBPedestals/${sqlitePED}.db
+		    if [ ! -f ${sqlitePED}.db ]; then wget http://cern.ch/ecaltrg/DBPedestals/${sqlitePED}.db;fi
 		fi
 		if [ $3 = "pulse" ]
 		then
@@ -92,14 +92,14 @@ eval `scram runtime -sh`
                     connect = cms.string(\"sqlite_file:${sqlitePULSE}.db\")
                               )
                     )">> hlt_${s}.py
-                    wget https://emanuele.web.cern.ch/emanuele/public/ECAL/jenkins/devel/${sqlitePULSE}.db
+                    if [ ! -f ${sqlitePULSE}.db ]; then wget https://emanuele.web.cern.ch/emanuele/public/ECAL/jenkins/devel/${sqlitePULSE}.db;fi
 		    #echo "process.GlobalTag.toGet = cms.VPSet(
 		    #  cms.PSet(record = cms.string(\"EcalTimeCalibConstantsRcd\"),
 		    #           tag = cms.string(\"EcalTimeCalibConstants_${2}_beginning_at_1\"),
 		    #           connect = cms.string(\"sqlite_file:${sqliteTIME}.db\")
 		    #          )
 		    #)">> hlt.py
-		    #wget https://emanuele.web.cern.ch/emanuele/public/ECAL/jenkins/devel/${sqliteTIME}.db
+		    #if [ ! -f ${sqliteTIME}.db ]; then wget https://emanuele.web.cern.ch/emanuele/public/ECAL/jenkins/devel/${sqliteTIME}.db;fi
 
 		fi
 
@@ -117,7 +117,7 @@ eval `scram runtime -sh`
 		for path in ${pathToMonitor[*]}
 		do
 		    printf "checking for    %s\n" $path
-		    cat log_sqlite_${s}.log | grep $path | grep TrigReport | grep -v "\-----" | awk '{if ($5 != 0) print "New normalized rate for path ", $8, $5}' >> output_sqlite_$path.log
+		    cat log_sqlite_${s}.log | grep $path | grep TrigReport | grep -v "\-----" | awk '{if ($5 != 0) print "New normalized rate for path ", $8, $5*1000/$4}' >> output_sqlite_$path.log
 		done
 	for path in ${pathToMonitor[*]}
 		do
