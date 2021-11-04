@@ -32,7 +32,7 @@ cp $listaFiles $CMSREL/src/.
 #hltGetConfiguration  /dev/CMSSW_12_0_0/GRun --full --offline --no-output --data --process MYHLT --type GRun --prescale 2.0e34+ZB+HLTPhysics --globaltag auto:run3_hlt_GRun --max-events -1 > hlt.py and changes therin
 
 cp hlt.py $CMSREL/src/.
-cp output_ref_${1}_${3}.log $CMSREL/src/. #only for the first time test to be commented
+#cp output_ref_${1}_${3}.log $CMSREL/src/. #only for the first time test to be commented
 #cp output_sqlite.log $CMSREL/src/. #only for the first time test to be commented
 cd $CMSREL/src
 eval `scram runtime -sh`
@@ -131,7 +131,7 @@ do
     awk -F" " '{sum+=$7}END{print "New normalized rate for path " $6,sum}' output_sqlite_$path.log >> output_sqlite.log
 done
 
-	#wget https://cmssdt.cern.ch/SDT/public/EcalLaserValidation/HLT_EcalLaserValidation/${1}_${3}/output_ref_${1}_${3}.log
+	wget https://cmssdt.cern.ch/SDT/public/EcalLaserValidation/HLT_EcalLaserValidation/${1}_${3}/output_ref_${1}_${3}.log
 
 touch outputDiff.log
 for path in ${pathToMonitor[*]}
