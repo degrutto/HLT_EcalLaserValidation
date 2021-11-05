@@ -1,4 +1,5 @@
 #!/bin/bash -ex
+INPUT_FILES=""
 file=`ls RunFiles/`
 echo $file
 if [ -f ToRun/$file ]
