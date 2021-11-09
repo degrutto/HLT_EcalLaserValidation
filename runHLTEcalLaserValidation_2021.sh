@@ -121,5 +121,5 @@ eval `scram runtime -sh`
 	    fi	
 	done
 
-	wait
+	
 	

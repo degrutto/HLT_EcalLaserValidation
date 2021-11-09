@@ -18,7 +18,7 @@ ls files_Run_323775_split_* > ls_files_Run_323775_split.txt
 nn=0
 for line in $(less ls_files_Run_323775_split.txt)
 do
-    nn=$nn+1
+    nn=$[$nn+1]
     ./runHLTEcalLaserValidation_2021.sh $sqliteRef $sqliteNew $label $week $(getconf _NPROCESSORS_ONLN) $line $nn &
 done
 wait
