@@ -7,17 +7,22 @@ sleep 5
 #GT=101X_dataRun2_HLT_v7
 #GT=101X_dataRun2_HLT_SiPixelQualityv9_v1
 reference=$1
-listaFiles=files_Run_323775.txt
+#listaFiles=files_Run_323775.txt
+listaFiles=$6
 sqlite=DBLaser_${2}_moved_to_1
 sqlitePED=Pedes_${2}
 sqlitePULSE=ecaltemplates_popcon_run_${2}
 sqliteTIME=ecaltimingic_popcon_run_${2}
 pathToMonitor=("HLT_Ele32_WPTight_Gsf_v" "HLT_Ele35_WPTight_Gsf_v" "HLT_Ele35_WPTight_Gsf_L1EGMT_v" "HLT_Ele38_WPTight_Gsf_v" "HLT_Ele30_eta2p1_WPTight_Gsf_CentralPFJet35_EleCleaned_v" "HLT_Photon33_v" "HLT_PFMET120_PFMHT120_IDTight_v" "HLT_PFMET100_PFMHT100_IDTight_PFHT60_v" "HLT_PFMETTypeOne120_PFMHT120_IDTight_v" )
 maxEvents=2000
-max_file_num=50
+max_file_num=-1
+job=$7
 ###############################
 jobs_in_parallel=$5
 if [ "$jobs_in_parallel" = "" ] ; then jobs_in_parallel=1; fi
+
+
+echo "listaFiles = "$listaFiles
 
 #export CMSREL=CMSSW_10_1_4
 #export SCRAM_ARCH=slc6_amd64_gcc630
@@ -41,6 +46,7 @@ eval `scram runtime -sh`
 #2018 :echo "will run : hltGetConfiguration --offline --globaltag " $GT   "--max-events 999999 orcoff:"$testMenu 
 #2018: hltGetConfiguration --online --globaltag $GT   --max-events $maxEvents  orcoff:$testMenu > hlt.py
 
+
         s=0
         for myfile in `less $listaFiles`  
 
@@ -49,21 +55,21 @@ eval `scram runtime -sh`
             s=$[$s+1]
             if (( "$s" <= "$max_file_num")) || (("$max_file_num" < 0 ))
             then
-		cp hlt.py hlt_${s}.py
-		echo "process.source.fileNames = cms.untracked.vstring()" >> hlt_${s}.py
-		echo "process.source.fileNames.extend([" >> hlt_${s}.py
-		echo $myfile >> hlt_${s}.py
-		echo "])" >> hlt_${s}.py
+		cp hlt.py hlt_$job_${s}.py
+		echo "process.source.fileNames = cms.untracked.vstring()" >> hlt_$job_${s}.py
+		echo "process.source.fileNames.extend([" >>hlt_$job_${s}.py
+		echo $myfile >> hlt_$job_${s}.py
+		echo "])" >> hlt_$job_${s}.py
 
-		sed -e "s,%maxevents%,$maxEvents,g" -i hlt_${s}.py
-		#cat fastTimeAdd.py >> hlt.py
+		sed -e "s,%maxevents%,$maxEvents,g" -i hlt_$job_${s}.py
+		#cat fastTimeAdd.py >> hlt_$job_${s}.py
 		echo "process.options = cms.untracked.PSet(
                 wantSummary = cms.untracked.bool( True ),
                 #numberOfThreads = cms.untracked.uint32( $(nproc) ),
                 numberOfThreads = cms.untracked.uint32( 1 ),
                 numberOfStreams = cms.untracked.uint32( 0 ),
                 sizeOfStackForThreadsInKB = cms.untracked.uint32( 10*1024 )
-                )" >> hlt_${s}.py
+                )" >> hlt_$job_${s}.py
 
 		if [ $3 = "laser" ]
 		then
@@ -72,7 +78,7 @@ eval `scram runtime -sh`
                     tag = cms.string(\"EcalLaserAPDPNRatios_${2}_beginning_at_1\"),
                     connect = cms.string(\"sqlite_file:${sqlite}.db\")
                               )
-                    )" >> hlt_${s}.py
+                    )" >>hlt_$job_${s}.py
 		    if [ ! -f ${sqlite}.db ]; then wget http://cern.ch/ecaltrg/DBLaser/${sqlite}.db;fi
 		fi
 		if [ $3 = "pedestal" ]
@@ -82,7 +88,7 @@ eval `scram runtime -sh`
                     tag = cms.string(\"EcalPedestals_hlt\"),
                     connect = cms.string(\"sqlite_file:${sqlitePED}.db\")
                               )
-                    )">> hlt_${s}.py
+                    )">>hlt_$job_${s}.py
 		    if [ ! -f ${sqlitePED}.db ]; then wget http://cern.ch/ecaltrg/DBPedestals/${sqlitePED}.db;fi
 		fi
 		if [ $3 = "pulse" ]
@@ -92,7 +98,7 @@ eval `scram runtime -sh`
                     tag = cms.string(\"EcalPulseShapes_${2}_beginning_at_1\"),
                     connect = cms.string(\"sqlite_file:${sqlitePULSE}.db\")
                               )
-                    )">> hlt_${s}.py
+                    )">>hlt_$job_${s}.py
                     if [ ! -f ${sqlitePULSE}.db ]; then wget https://emanuele.web.cern.ch/emanuele/public/ECAL/jenkins/devel/${sqlitePULSE}.db;fi
 		    #echo "process.GlobalTag.toGet = cms.VPSet(
 		    #  cms.PSet(record = cms.string(\"EcalTimeCalibConstantsRcd\"),
@@ -107,53 +113,13 @@ eval `scram runtime -sh`
 		#edmConfigDump hlt.py > hlt_config.py
 		if [ $jobs_in_parallel -gt 1 ] ; then
                       while [ $(jobs | wc -l) -ge $jobs_in_parallel ] ; do sleep 5 ; done
-		       cmsRun hlt_${s}.py >&log_sqlite_${s}.log &
+		       cmsRun hlt_$job_${s}.py >&log_sqlite_$job_${s}.log &
                     else
-  		       cmsRun hlt_${s}.py >&log_sqlite_${s}.log 
+  		       cmsRun hlt_$job_${s}.py >&log_sqlite_$job_${s}.log 
                 fi
-	fi	
+
+	    fi	
 	done
 
 	wait
 	
-ls log_sqlite_*.log > ls_log_sqlite.txt
-for line in $(less ls_log_sqlite.txt)
-do
-    for path in ${pathToMonitor[*]}
-    do
-	printf "checking for    %s\n" $path
-	cat $line | grep $path | grep TrigReport | grep -v "\-----" | awk '{if ($5 != 0) print "New normalized rate for path ", $8, $5*2000/$4}' >> output_sqlite_$path.log
-    done
-done
-
-for path in ${pathToMonitor[*]}
-do
-    awk -F" " '{sum+=$7}END{print "New normalized rate for path " $6,sum}' output_sqlite_$path.log >> output_sqlite.log
-done
-
-	wget https://cmssdt.cern.ch/SDT/public/EcalLaserValidation/HLT_EcalLaserValidation/${1}_${3}/output_ref_${1}_${3}.log
-
-touch outputDiff.log
-for path in ${pathToMonitor[*]}
-do
-   printf "checking for    %s\n" $path
-   cat output_sqlite.log | grep $path | awk '{if ($7 != 0) print "New normalized rate for path ", $6, $7}' >> outputDiff.log 
-   cat output_ref_${1}_${3}.log | grep $path | awk '{if ($7 !=0)  print "Ref normalized rate for path ", $6, $7}' >> outputDiff.log 
-done
-
-
-if [-f ${WORKSPACE}/upload/${2}_${3} ]
-then
-  echo "dir is already existing"
-  touch ${WORKSPACE}/upload/${2}_${3}/.jenkins-upload
-else
-    mkdir ${WORKSPACE}/upload/${2}_${3}
-    touch ${WORKSPACE}/upload/${2}_${3}/.jenkins-upload
-fi
-
-#we need to make a tar gz of this one
-cp output_sqlite.log  ${WORKSPACE}/upload/${2}_${3}/output_ref_${2}_${3}.log 
-cp outputDiff.log ${WORKSPACE}/upload/${2}_${3}/outputDiff.log
-
-
-
