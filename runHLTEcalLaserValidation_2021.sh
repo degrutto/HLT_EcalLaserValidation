@@ -7,8 +7,8 @@ sleep 5
 #GT=101X_dataRun2_HLT_v7
 #GT=101X_dataRun2_HLT_SiPixelQualityv9_v1
 reference=$1
-#listaFiles=files_Run_323775.txt
-listaFiles=$6
+listaFiles=files_Run_323775.txt
+#listaFiles=$6
 sqlite=DBLaser_${2}_moved_to_1
 sqlitePED=Pedes_${2}
 sqlitePULSE=ecaltemplates_popcon_run_${2}
@@ -20,6 +20,7 @@ job=$7
 ###############################
 jobs_in_parallel=$5
 if [ "$jobs_in_parallel" = "" ] ; then jobs_in_parallel=1; fi
+if [ "$job" = "" ] ; then job=1; fi
 
 
 echo "listaFiles = "$listaFiles
@@ -120,6 +121,8 @@ eval `scram runtime -sh`
 
 	    fi	
 	done
+wait
+./harvest_2021.sh 
 
 	
 	

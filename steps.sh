@@ -12,17 +12,18 @@ echo ToRun/$file
 cp ToRun/$file RunFiles/.
 rm ToRun/$file
 echo "./runHLTEcalLaserValidation_2021.sh $sqliteRef $sqliteNew $label $week"
-
-split -n l/9 --numeric-suffixes files_Run_323775.txt files_Run_323775_split_
-ls files_Run_323775_split_* > ls_files_Run_323775_split.txt
-nn=0
-for line in $(less ls_files_Run_323775_split.txt)
-do
-    nn=$[$nn+1]
-    ./runHLTEcalLaserValidation_2021.sh $sqliteRef $sqliteNew $label $week $(getconf _NPROCESSORS_ONLN) $line $nn &
-done
-wait
-./harvest_2021.sh 
+line="files_Run_323775.txt"
+#split -n l/9 --numeric-suffixes files_Run_323775.txt files_Run_323775_split_
+#ls files_Run_323775_split_* > ls_files_Run_323775_split.txt
+#nn=0
+#for line in $(less ls_files_Run_323775_split.txt)
+#do
+#    nn=$[$nn+1]
+#    ./runHLTEcalLaserValidation_2021.sh $sqliteRef $sqliteNew $label $week $(getconf _NPROCESSORS_ONLN) $line $nn &
+    ./runHLTEcalLaserValidation_2021.sh $sqliteRef $sqliteNew $label $week $(getconf _NPROCESSORS_ONLN) 
+#done
+#wait
+#./harvest_2021.sh 
 else
 echo "No new files"
 fi
