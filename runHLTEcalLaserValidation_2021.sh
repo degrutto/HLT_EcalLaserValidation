@@ -32,6 +32,9 @@ export CMSREL=CMSSW_12_0_1
 export SCRAM_ARCH=slc7_amd64_gcc900
 scram -a $SCRAM_ARCH project $CMSREL
 
+#harvest.sh
+cp harvest.sh $CMSREL/src/.
+
 #listaFiles 
 cp $listaFiles $CMSREL/src/.
 #hlt.py made from recipe: https://twiki.cern.ch/twiki/bin/view/CMS/SteamHLTRatesCalculation
@@ -121,7 +124,10 @@ eval `scram runtime -sh`
 
 	    fi	
 	done
-wait
+	wait
+
+#harvest.sh
+#cp log_sqlite_* ../../.
 ./harvest_2021.sh 
 
 	
