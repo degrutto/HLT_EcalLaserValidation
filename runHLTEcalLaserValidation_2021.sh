@@ -128,7 +128,7 @@ eval `scram runtime -sh`
 
 #harvest.sh
 #cp log_sqlite_* ../../.
-./harvest_2021.sh 
+./harvest_2021.sh $1 $2 $3
 
 	
 	
