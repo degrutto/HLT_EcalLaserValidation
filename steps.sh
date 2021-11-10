@@ -23,7 +23,7 @@ line="files_Run_323775.txt"
     ./runHLTEcalLaserValidation_2021.sh $sqliteRef $sqliteNew $label $week $(getconf _NPROCESSORS_ONLN) 
 #done
 #wait
-#./harvest_2021.sh 
+#./harvest_2021.sh $sqliteRef $sqliteNew $label
 else
 echo "No new files"
 fi
