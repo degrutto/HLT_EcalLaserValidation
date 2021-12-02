@@ -1,5 +1,5 @@
 week 48
 year 2021
-run1 347136
-run2 345902
+run1 345902
+run2 319111
 type pedestal
