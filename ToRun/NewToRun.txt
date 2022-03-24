@@ -1,5 +1,5 @@
-week 44
-year 2021
-run1 327271
-run2 345902
-type pedestal
+week 12
+year 2022
+run1 345982
+run2 349073
+type laser 
