@@ -34,7 +34,7 @@ scram -a $SCRAM_ARCH project $CMSREL
 
 #harvest.sh
 cp harvest_2021.sh $CMSREL/src/.
-cp output_ref_345925_laser.log $CMSREL/src/.
+
 #listaFiles 
 cp $listaFiles $CMSREL/src/.
 #hlt.py made from recipe: https://twiki.cern.ch/twiki/bin/view/CMS/SteamHLTRatesCalculation

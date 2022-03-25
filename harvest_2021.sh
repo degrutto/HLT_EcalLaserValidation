@@ -16,7 +16,7 @@ do
     awk -F" " '{sum+=$7}END{print "New normalized rate for path " $6,sum}' output_sqlite_$path.log >> output_sqlite.log
 done
 
-	#wget https://cmssdt.cern.ch/SDT/public/EcalLaserValidation/HLT_EcalLaserValidation/${1}_${3}/output_ref_${1}_${3}.log
+	wget https://cmssdt.cern.ch/SDT/public/EcalLaserValidation/HLT_EcalLaserValidation/${1}_${3}/output_ref_${1}_${3}.log
 
 touch outputDiff.log
 for path in ${pathToMonitor[*]}
