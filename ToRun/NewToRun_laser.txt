@@ -1,0 +1,13 @@
+<<<<<<< HEAD
+week 12
+year 2022
+run1 345982
+run2 349073
+type laser 
+=======
+week 48
+year 2021
+run1 345902
+run2 319111
+type pedestal
+>>>>>>> e63951bc9b80226f58e5ec642d6e09686568dfdf
