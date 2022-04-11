@@ -90,7 +90,7 @@ eval `scram runtime -sh`
                     tag = cms.string(\"EcalIntercalibConstants_UL_Run1_Run2_2018_lastIOV_movedTo1\"),
                     connect = cms.string(\"frontier://FrontierProd/CMS_CONDITIONS\")
                               )
-                    )" >>Hlt_$job_${s}.py
+                    )" >>hlt_$job_${s}.py
 		    if [ ! -f ${sqlite}.db ]; then wget http://cern.ch/ecaltrg/DBLaser/${sqlite}.db;fi
 		fi
 		if [ $3 = "pedestal" ]
