@@ -78,10 +78,10 @@ eval `scram runtime -sh`
 		if [ $3 = "laser" ]
 		then
 		    echo "process.GlobalTag.toGet = cms.VPSet(
-                    #cms.PSet(record = cms.string(\"EcalLaserAPDPNRatiosRcd\"),
-                    #tag = cms.string(\"EcalLaserAPDPNRatios_${2}_beginning_at_1\"),
-                    #connect = cms.string(\"sqlite_file:${sqlite}.db\")
-                    #         )
+                    cms.PSet(record = cms.string(\"EcalLaserAPDPNRatiosRcd\"),
+                    tag = cms.string(\"EcalLaserAPDPNRatios_${2}_beginning_at_1\"),
+                    connect = cms.string(\"sqlite_file:${sqlite}.db\")
+                             ),
                     cms.PSet(record = cms.string(\"EcalLaserAlphasRcd\"),
                     tag = cms.string(\"EcalLaserAlphas_UL_Run1_Run2_2018_lastIOV_movedTo1\"),
                     connect = cms.string(\"frontier://FrontierProd/CMS_CONDITIONS\")
