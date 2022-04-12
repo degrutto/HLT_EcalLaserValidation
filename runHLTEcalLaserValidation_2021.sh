@@ -85,7 +85,7 @@ eval `scram runtime -sh`
                     cms.PSet(record = cms.string(\"EcalLaserAlphasRcd\"),
                     tag = cms.string(\"EcalLaserAlphas_UL_Run1_Run2_2018_lastIOV_movedTo1\"),
                     connect = cms.string(\"frontier://FrontierProd/CMS_CONDITIONS\")
-                              )
+                              ),
                     cms.PSet(record = cms.string(\"EcalIntercalibConstantsRcd\"),
                     tag = cms.string(\"EcalIntercalibConstants_UL_Run1_Run2_2018_lastIOV_movedTo1\"),
                     connect = cms.string(\"frontier://FrontierProd/CMS_CONDITIONS\")
