@@ -20,7 +20,7 @@ if [[ `wget -S --spider https://cmssdt.cern.ch/SDT/public/EcalLaserValidation/HL
 then 
     wget https://cmssdt.cern.ch/SDT/public/EcalLaserValidation/HLT_EcalLaserValidation/${1}_${3}/output_ref_${1}_${3}.log
 else
-    cp output_ref_349295_pedestal.log output_ref_${1}_${3}.log
+    #cp output_ref_349295_pedestal.log output_ref_${1}_${3}.log
     mail -s "used output_ref_349295_pedestal.log  " zghiche@cern.ch <<< "output_ref_349295_pedestal.log used in HLT validation: redo please "
 fi
 
