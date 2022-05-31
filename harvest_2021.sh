@@ -25,6 +25,7 @@ done
 #fi
 
 if [[ `wget -S --spider https://ecaltrg.web.cern.ch/ecaltrg/ReferenceNTuples/HLT/${3}/output_ref_${1}_${3}.log  2>&1 | grep 'HTTP/1.1 200 OK'` ]]
+then
     wget https://ecaltrg.web.cern.ch/ecaltrg/ReferenceNTuples/HLT/${3}/output_ref_${1}_${3}.log
 else
     #cp output_ref_349295_pedestal.log output_ref_${1}_${3}.log
