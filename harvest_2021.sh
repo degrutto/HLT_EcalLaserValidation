@@ -16,15 +16,22 @@ do
     awk -F" " '{sum+=$7}END{print "New normalized rate for path " $6,sum}' output_sqlite_$path.log >> output_sqlite.log
 done
 
-if [[ `wget -S --spider https://cmssdt.cern.ch/SDT/public/EcalLaserValidation/HLT_EcalLaserValidation/${1}_${3}/output_ref_${1}_${3}.log 2>&1 | grep 'HTTP/1.1 200 OK'` ]]
-then 
-    wget https://cmssdt.cern.ch/SDT/public/EcalLaserValidation/HLT_EcalLaserValidation/${1}_${3}/output_ref_${1}_${3}.log
+#if [[ `wget -S --spider https://cmssdt.cern.ch/SDT/public/EcalLaserValidation/HLT_EcalLaserValidation/${1}_${3}/output_ref_${1}_${3}.log 2>&1 | grep 'HTTP/1.1 200 OK'` ]]
+#then 
+#    wget https://cmssdt.cern.ch/SDT/public/EcalLaserValidation/HLT_EcalLaserValidation/${1}_${3}/output_ref_${1}_${3}.log
+#else
+#    #cp output_ref_349295_pedestal.log output_ref_${1}_${3}.log
+#    mail -s "used output_ref_349295_pedestal.log  " zghiche@cern.ch <<< "output_ref_349295_pedestal.log used in HLT validation: redo please "
+#fi
+
+if [[ `wget -S --spider https://ecaltrg.web.cern.ch/ecaltrg/ReferenceNTuples/HLT/${3}/output_ref_${1}_${3}.log  2>&1 | grep 'HTTP/1.1 200 OK'` ]]
+    wget https://ecaltrg.web.cern.ch/ecaltrg/ReferenceNTuples/HLT/${3}/output_ref_${1}_${3}.log
 else
     #cp output_ref_349295_pedestal.log output_ref_${1}_${3}.log
-    mail -s "used output_ref_349295_pedestal.log  " zghiche@cern.ch <<< "output_ref_349295_pedestal.log used in HLT validation: redo please "
+    mail -s "used output_ref_349295_pedestal.log  " zghiche@cern.ch <<< "output_ref_349295_pedestal.log use$
 fi
 
-touch outputDiff.log
+touch outputDiff.log  
 for path in ${pathToMonitor[*]}
 do
    printf "checking for    %s\n" $path
