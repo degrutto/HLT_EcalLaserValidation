@@ -29,7 +29,7 @@ then
     wget https://ecaltrg.web.cern.ch/ecaltrg/ReferenceNTuples/HLT/${3}/output_ref_${1}_${3}.log
 else
     #cp output_ref_349295_pedestal.log output_ref_${1}_${3}.log
-    mail -s "used output_ref_349295_pedestal.log  " zghiche@cern.ch <<< "output_ref_349295_pedestal.log use$
+    mail -s "used output_ref_349295_pedestal.log  " zghiche@cern.ch <<< "output_ref_349295_pedestal.log used"
 fi
 
 touch outputDiff.log  
