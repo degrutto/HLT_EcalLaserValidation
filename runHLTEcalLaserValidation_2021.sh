@@ -37,8 +37,8 @@ cp harvest_2021.sh $CMSREL/src/.
 cp output_ref_349295_pedestal.log $CMSREL/src/.
 #listaFiles 
 cp $listaFiles $CMSREL/src/.
-#hlt.py made from recipe: https://twiki.cern.ch/twiki/bin/view/CMS/SteamHLTRatesCalculation
-#hltGetConfiguration  /dev/CMSSW_12_0_0/GRun --full --offline --no-output --data --process MYHLT --type GRun --prescale 2.0e34+ZB+HLTPhysics --globaltag auto:run3_hlt_GRun --max-events -1 > hlt.py and changes therin
+#hlt.py got from Sam Harper: wget https://www.cern.ch/sharper/cms/trig/2022/hlt_1235_2018cust.py
+#not uptodate hltGetConfiguration  /dev/CMSSW_12_0_0/GRun --full --offline --no-output --data --process MYHLT --type GRun --prescale 2.0e34+ZB+HLTPhysics --globaltag auto:run3_hlt_GRun --max-events -1 > hlt.py and changes therin
 
 cp hlt.py $CMSREL/src/.
 #cp output_ref_${1}_${3}.log $CMSREL/src/. #only for the first time test to be commented
@@ -126,8 +126,10 @@ eval `scram runtime -sh`
 		#edmConfigDump hlt.py > hlt_config.py
 		if [ $jobs_in_parallel -gt 1 ] ; then
                       while [ $(jobs | wc -l) -ge $jobs_in_parallel ] ; do sleep 5 ; done
+		       echo "running #cmsRun hlt_$job_${s}.py >&log_sqlite_$job_${s}.log &"
 		       cmsRun hlt_$job_${s}.py >&log_sqlite_$job_${s}.log &
                     else
+  		       echo "#cmsRun hlt_$job_${s}.py >&log_sqlite_$job_${s}.log "
   		       cmsRun hlt_$job_${s}.py >&log_sqlite_$job_${s}.log 
                 fi
 
@@ -137,6 +139,7 @@ eval `scram runtime -sh`
 
 #harvest.sh
 #cp log_sqlite_* ../../.
+echo " running ./harvest_2021.sh $1 $2 $3"
 ./harvest_2021.sh $1 $2 $3
 
 	
