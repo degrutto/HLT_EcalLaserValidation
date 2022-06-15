@@ -37,7 +37,7 @@ cp harvest_2021.sh $CMSREL/src/.
 cp output_ref_349295_pedestal.log $CMSREL/src/.
 #listaFiles 
 cp $listaFiles $CMSREL/src/.
-#hlt.py got from Sam Harper: wget https://www.cern.ch/sharper/cms/trig/2022/hlt_1235_2018cust.py
+#hlt.py got from Sam Harper: https://www.cern.ch/sharper/cms/trig/2022/hlt_1235_2018cust.py
 #not uptodate hltGetConfiguration  /dev/CMSSW_12_0_0/GRun --full --offline --no-output --data --process MYHLT --type GRun --prescale 2.0e34+ZB+HLTPhysics --globaltag auto:run3_hlt_GRun --max-events -1 > hlt.py and changes therin
 
 cp hlt.py $CMSREL/src/.
