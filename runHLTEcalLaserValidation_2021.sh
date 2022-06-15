@@ -28,7 +28,7 @@ echo "listaFiles = "$listaFiles
 #export CMSREL=CMSSW_10_1_4
 #export SCRAM_ARCH=slc6_amd64_gcc630
 #scram -a $SCRAM_ARCH project $CMSREL
-export CMSREL=CMSSW_12_0_1
+export CMSREL=CMSSW_12_3_5
 export SCRAM_ARCH=slc7_amd64_gcc900
 scram -a $SCRAM_ARCH project $CMSREL
 
