@@ -37,7 +37,7 @@ do
 done
 
 
-if [-f ${WORKSPACE}/upload/${2}_${3} ]
+if [ -f ${WORKSPACE}/upload/${2}_${3} ]
 then
   echo "dir is already existing"
   touch ${WORKSPACE}/upload/${2}_${3}/.jenkins-upload
