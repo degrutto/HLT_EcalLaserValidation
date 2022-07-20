@@ -1,5 +1,5 @@
 week 29
 year 2022
-run1 355865
-run2 355872
-type laser
+run1 7420
+run2 8007
+type pulse
