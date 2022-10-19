@@ -1,5 +1,5 @@
 week 42 
 year 2022
-run1 8225
-run2 8276
-type pulse
+run1 357819
+run2 360619
+type pedestal
