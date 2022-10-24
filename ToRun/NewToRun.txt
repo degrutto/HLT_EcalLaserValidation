@@ -1,5 +1,5 @@
-week 42
+week 43 
 year 2022
-run1 360927
-run2 360942
-type laser
+run1 360577
+run2 361001
+type pedestal
