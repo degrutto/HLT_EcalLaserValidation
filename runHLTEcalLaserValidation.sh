@@ -63,6 +63,9 @@ echo "process.GlobalTag.toGet = cms.VPSet(
   cms.PSet(record = cms.string(\"EcalLaserAPDPNRatiosRcd\"),
            tag = cms.string(\"EcalLaserAPDPNRatios_${2}_beginning_at_1\"),
            connect = cms.string(\"sqlite_file:${sqlite}.db\")
+          ),
+  cms.PSet(record = cms.string(\"EcalIntercalibConstantsRcd\"),
+           tag = cms.string(\"EcalIntercalibConstants_ftvalidation_2022_10_10\"),
           )
 )" >> hlt.py
 wget http://cern.ch/ecaltrg/DBLaser/${sqlite}.db
