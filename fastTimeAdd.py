@@ -1,6 +1,6 @@
 process.options = cms.untracked.PSet(
     wantSummary = cms.untracked.bool( True ),
-    numberOfThreads = cms.untracked.uint32( 4 ),
+    numberOfThreads = cms.untracked.uint32( 8 ),
     numberOfStreams = cms.untracked.uint32( 0 ),
     sizeOfStackForThreadsInKB = cms.untracked.uint32( 10*1024 )
 )
@@ -8,9 +8,9 @@ process.options = cms.untracked.PSet(
 
 
 # FastTimerServiceClient                                                                                                                                                                                          
-process.fastTimerServiceClient = cms.EDAnalyzer( "FastTimerServiceClient",
-    dqmPath = cms.untracked.string( "HLT/TimerService" )
-)
+#process.fastTimerServiceClient = cms.EDAnalyzer( "FastTimerServiceClient",
+#    dqmPath = cms.untracked.string( "HLT/TimerService" )
+#)
 
 # DQM file saver                                                                                                                                                                                                  
 process.dqmFileSaver = cms.EDAnalyzer( "DQMFileSaver",
@@ -26,13 +26,19 @@ process.dqmFileSaver = cms.EDAnalyzer( "DQMFileSaver",
     forceRunNumber    = cms.untracked.int32(-1),
 )
 
-process.TimingOutput = cms.EndPath( process.fastTimerServiceClient + process.dqmFileSaver )
+#process.TimingOutput = cms.EndPath( process.fastTimerServiceClient + process.dqmFileSaver )
 
 
 process.GlobalTag.toGet = cms.VPSet(
   cms.PSet(record = cms.string("EcalLaserAPDPNRatiosRcd"),
-           tag = cms.string("EcalLaserAPDPNRatios_weekly_v1_hlt"),
-#           connect = cms.string("sqlite_file:/afs/cern.ch/work/e/ecaltrg/public/dropbox/DBLaser/DBLaser_292925.db")
-           connect = cms.string("sqlite_file:/afs/cern.ch/work/e/ecaltrg/public/dropbox/DBLaser/TOADAPT.db")
+           tag = cms.string("EcalLaserAPDPNRatios_RUNNUMBERHERE_beginning_at_1"),
+           connect = cms.string("sqlite_file:TOADAPT.db")
+          )
+)
+
+process.GlobalTag.toGet = cms.VPSet(
+  cms.PSet(record = cms.string("EcalPedestalsRcd"),
+           tag = cms.string("EcalPedestals_hlt"),
+           connect = cms.string("sqlite_file:PEDES.db")
           )
 )
