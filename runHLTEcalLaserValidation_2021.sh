@@ -7,7 +7,7 @@ sleep 5
 #GT=101X_dataRun2_HLT_v7
 #GT=101X_dataRun2_HLT_SiPixelQualityv9_v1
 reference=$1
-listaFiles=files_Run_323775.txt
+listaFiles=files_Run_357271.txt
 #listaFiles=$6
 sqlite=DBLaser_${2}_moved_to_1
 sqlitePED=Pedes_${2}
@@ -15,8 +15,8 @@ sqlitePED=Pedes_${2}
 sqlitePULSE=ecaltemplates_popcon_fill_${2}
 sqliteTIME=ecaltimingic_popcon_run_${2}
 pathToMonitor=("HLT_Ele32_WPTight_Gsf_v" "HLT_Ele35_WPTight_Gsf_v" "HLT_Ele35_WPTight_Gsf_L1EGMT_v" "HLT_Ele38_WPTight_Gsf_v" "HLT_Ele30_eta2p1_WPTight_Gsf_CentralPFJet35_EleCleaned_v" "HLT_Photon33_v" "HLT_PFMET120_PFMHT120_IDTight_v" "HLT_PFMET100_PFMHT100_IDTight_PFHT60_v" "HLT_PFMETTypeOne120_PFMHT120_IDTight_v" )
-maxEvents=2000
-max_file_num=-1
+maxEvents=200
+max_file_num=64
 job=$7
 ###############################
 jobs_in_parallel=$5
@@ -29,8 +29,8 @@ echo "listaFiles = "$listaFiles
 #export CMSREL=CMSSW_10_1_4
 #export SCRAM_ARCH=slc6_amd64_gcc630
 #scram -a $SCRAM_ARCH project $CMSREL
-export CMSREL=CMSSW_12_3_5
-export SCRAM_ARCH=slc7_amd64_gcc10
+export CMSREL=CMSSW_13_1_0
+export SCRAM_ARCH=slc7_amd64_gcc11
 scram -a $SCRAM_ARCH project $CMSREL
 
 #harvest.sh
@@ -38,6 +38,7 @@ cp harvest_2021.sh $CMSREL/src/.
 cp output_ref_349295_pedestal.log $CMSREL/src/.
 #listaFiles 
 cp $listaFiles $CMSREL/src/.
+#2023 hlt.py from Sanu Varghese otained with: hltGetConfiguration /dev/CMSSW_13_0_0/GRun/V8  --data --process MYHLT --type GRun  --prescale 2p0E34+ZeroBias+HLTPhysics --globaltag 130X_dataRun3_HLT_v2  --max-events -1 > hlt.py
 #hlt.py got from Sam Harper: https://www.cern.ch/sharper/cms/trig/2022/hlt_1235_2018cust.py
 #not uptodate hltGetConfiguration  /dev/CMSSW_12_0_0/GRun --full --offline --no-output --data --process MYHLT --type GRun --prescale 2.0e34+ZB+HLTPhysics --globaltag auto:run3_hlt_GRun --max-events -1 > hlt.py and changes therin
 
