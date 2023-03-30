@@ -8,7 +8,9 @@ sleep 5
 #GT=101X_dataRun2_HLT_SiPixelQualityv9_v1
 reference=$1
 #listaFiles=files_Run_357271.txt
-listaFiles=files_Run_362720.txt
+#listaFiles=files_Run_362720.txt
+listaFiles=files_Run_355921.txt
+
 #listaFiles=$6
 sqlite=DBLaser_${2}_moved_to_1
 sqlitePED=Pedes_${2}
