@@ -1,5 +1,5 @@
-week 23
+week 24 
 year 2023
-run1 368724
-run2 368753
-type laser
+run1 368473
+run2 368782
+type pedestal
