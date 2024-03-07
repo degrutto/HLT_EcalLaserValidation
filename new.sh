@@ -12,8 +12,8 @@ echo ToRun/$file
     label=`grep "type" ToRun/$file | awk '{print $2}'`
 cp ToRun/$file RunFiles/.
 rm ToRun/$file
-echo "./runHLTEcalLaserValidation_2021.sh $sqliteRef $sqliteNew $label $week"
-./runHLTEcalLaserValidation_2021.sh $sqliteRef $sqliteNew $label $week $(getconf _NPROCESSORS_ONLN)
+echo "./runHLTEcalLaserValidation_2024.sh $sqliteRef $sqliteNew $label $week"
+./runHLTEcalLaserValidation_2024.sh $sqliteRef $sqliteNew $label $week $(getconf _NPROCESSORS_ONLN)
 git commit -a -m "clean ToRun files"
 git push
 else
